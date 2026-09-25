@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Environment files - NEVER commit these. They hold database credentials
+# and admin secrets. Only the .env.example templates are tracked.
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+dist-ssr/
+build/
+out/
+.vite/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Caches
+.cache/
+.turbo/
+.eslintcache
+
+# npm's own cache and housekeeping files. These live in the home directory
+# rather than node_modules, so they are easy to sweep up by accident.
+.npm/
+.npmrc
+.node_repl_history
+
+# Vercel
+.vercel/
+.vercelignore.local

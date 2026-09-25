@@ -1,0 +1,348 @@
+/* =============================================================
+   Shared UI primitives: buttons, tags, headings, alerts, badges
+   ============================================================= */
+
+/* ---------------- Button ---------------- */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--c-mist);
+  --btn-border: var(--c-mist-16);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.72rem 1.35rem;
+  min-height: 44px; /* comfortable touch target */
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius-sm);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  line-height: 1;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.btn:not(:disabled):active {
+  transform: translateY(0);
+}
+
+/* Primary: cream fill on dark. Highest contrast, one per view. */
+.btn--primary {
+  --btn-bg: var(--c-mist);
+  --btn-fg: var(--c-navy);
+  --btn-border: var(--c-mist);
+}
+.btn--primary:not(:disabled):hover {
+  --btn-bg: var(--c-mist);
+  --btn-border: var(--c-mist);
+}
+
+/* Secondary: outlined, sits quietly next to the primary. */
+.btn--secondary {
+  --btn-bg: transparent;
+  --btn-fg: var(--c-mist);
+  --btn-border: var(--c-mist-40);
+}
+.btn--secondary:not(:disabled):hover {
+  --btn-bg: var(--c-slate);
+  --btn-border: var(--c-slate);
+  --btn-fg: var(--c-mist);
+}
+
+/* Accent: slate fill, for in-section actions.
+   Uses the deeper slate so the mist label clears AA (5.11:1). Hover darkens
+   rather than lightens, which increases contrast instead of eating into it. */
+.btn--accent {
+  --btn-bg: var(--c-slate-deep);
+  --btn-fg: var(--c-mist);
+  --btn-border: var(--c-slate);
+}
+.btn--accent:not(:disabled):hover {
+  --btn-bg: #3d5570;
+  --btn-border: var(--c-steel);
+}
+
+/* Ghost: text-only, for tertiary actions. */
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--c-mist-74);
+  --btn-border: transparent;
+  padding-inline: var(--space-3);
+}
+.btn--ghost:not(:disabled):hover {
+  --btn-fg: var(--c-mist);
+  --btn-bg: var(--c-mist-06);
+}
+
+/* Danger: destructive actions in the admin dashboard. */
+.btn--danger {
+  --btn-bg: transparent;
+  --btn-fg: var(--c-danger);
+  --btn-border: rgba(224, 148, 128, 0.42);
+}
+.btn--danger:not(:disabled):hover {
+  --btn-bg: var(--c-danger-bg);
+  --btn-border: var(--c-danger);
+  --btn-fg: #eaa892;
+}
+
+.btn--sm {
+  padding: 0.5rem 0.9rem;
+  min-height: 38px;
+  font-size: var(--text-xs);
+}
+
+.btn--lg {
+  padding: 0.95rem 1.75rem;
+  min-height: 52px;
+  font-size: var(--text-base);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn__spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+  flex: none;
+}
+
+/* ---------------- Section heading ---------------- */
+.section-heading {
+  max-width: 62ch;
+  margin-bottom: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);
+}
+
+.section-heading__title {
+  margin-top: var(--space-4);
+  font-size: var(--text-3xl);
+  max-width: 34ch;
+}
+
+.section-heading__intro {
+  margin-top: var(--space-4);
+  font-size: var(--text-lg);
+  color: var(--text-body);
+  max-width: 68ch;
+}
+
+/* ---------------- Tag ---------------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--c-mist-06);
+  color: var(--c-mist-90);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.2;
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+.tag:hover {
+  border-color: var(--c-slate);
+  background: var(--c-mist-10);
+}
+
+/* Proficiency dot - only rendered when a skill explicitly sets a level. */
+.tag__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+}
+.tag__dot--confident {
+  background: var(--c-mist);
+}
+.tag__dot--working {
+  background: var(--c-steel);
+}
+.tag__dot--learning {
+  background: rgba(157, 178, 191, 0.55);
+}
+
+/* ---------------- Alert ---------------- */
+.alert {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border-subtle);
+  border-left-width: 3px;
+  border-radius: var(--radius-md);
+  background: var(--c-mist-06);
+  color: var(--text-body);
+  font-size: var(--text-sm);
+}
+
+.alert__icon {
+  flex: none;
+  margin-top: 2px;
+  color: var(--c-mist-74);
+}
+
+.alert__title {
+  color: var(--text-heading);
+  font-weight: 600;
+  font-size: var(--text-base);
+}
+
+.alert__body {
+  margin-top: var(--space-1);
+}
+
+.alert__actions {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.alert--error {
+  border-left-color: var(--c-danger-strong);
+  background: var(--c-danger-bg);
+}
+.alert--error .alert__icon {
+  color: var(--c-danger);
+}
+
+.alert--success {
+  border-left-color: var(--c-mist);
+}
+.alert--success .alert__icon {
+  color: var(--c-mist);
+}
+
+.alert--info {
+  border-left-color: var(--c-slate);
+}
+
+/* ---------------- Placeholder badge ---------------- */
+/* Marks content that is still a stand-in, so it can never be mistaken
+   for a real claim about the site owner. */
+.placeholder-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.22rem 0.5rem;
+  border: 1px dashed var(--c-mist-40);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--c-mist-68);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* ---------------- Empty / error state block ---------------- */
+.state-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  padding: clamp(2.5rem, 1.8rem + 3vw, 4rem) var(--space-6);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--c-mist-06);
+}
+
+.state-block__icon {
+  color: var(--c-mist-68);
+}
+
+.state-block__title {
+  font-size: var(--text-xl);
+}
+
+.state-block__body {
+  max-width: 52ch;
+  color: var(--text-muted);
+  font-size: var(--text-base);
+}
+
+/* ---------------- Spinner ---------------- */
+.spinner {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--c-mist-16);
+  border-top-color: var(--c-mist);
+  border-radius: 50%;
+  animation: spin 720ms linear infinite;
+}
+
+.spinner--lg {
+  width: 34px;
+  height: 34px;
+  border-width: 2.5px;
+}
+
+/* ---------------- Skeleton ---------------- */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--c-mist-06);
+  border-radius: var(--radius-sm);
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(221, 230, 237, 0.07),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+    opacity: 0.35;
+    transform: none;
+  }
+}

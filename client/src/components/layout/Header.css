@@ -1,0 +1,197 @@
+/* =============================================================
+   Sticky site header
+   ============================================================= */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--c-navy);
+  border-bottom: 1px solid transparent;
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: var(--border-subtle);
+  box-shadow: 0 6px 20px -16px rgba(0, 0, 0, 0.95);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  min-height: var(--header-height);
+}
+
+/* ---------------- Brand ---------------- */
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: none;
+  color: var(--c-mist);
+  border-radius: var(--radius-sm);
+}
+
+.site-header__mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--c-slate);
+  border-radius: var(--radius-sm);
+  background: var(--c-slate-deep);
+  color: var(--c-mist);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: background-color var(--dur-base) var(--ease-out);
+}
+
+.site-header__brand:hover .site-header__mark {
+  background: var(--c-slate-deep);
+}
+
+.site-header__name {
+  font-size: var(--text-base);
+  font-weight: 650;
+  letter-spacing: var(--tracking-tight);
+  white-space: nowrap;
+}
+
+/* ---------------- Desktop nav ---------------- */
+.site-nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.site-nav__link {
+  position: relative;
+  display: inline-block;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: var(--c-mist-68);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+.site-nav__link:hover {
+  color: var(--c-mist);
+}
+
+.site-nav__link.is-active {
+  color: var(--c-mist);
+  font-weight: 600;
+}
+
+/* Underline marks the active section; purely decorative reinforcement -
+   aria-current carries the meaning for assistive tech. */
+.site-nav__link.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.18rem;
+  height: 1.5px;
+  background: var(--c-mist);
+  border-radius: 2px;
+}
+
+.site-nav__list {
+  list-style: none;
+}
+
+@media (max-width: 899px) {
+  .site-nav {
+    display: none;
+  }
+}
+
+/* ---------------- Hamburger ---------------- */
+.site-header__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--c-mist);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+
+.site-header__toggle:hover {
+  background: var(--c-slate);
+  border-color: var(--c-slate);
+}
+
+@media (max-width: 899px) {
+  .site-header__toggle {
+    display: inline-flex;
+  }
+
+  .site-header__name {
+    font-size: var(--text-sm);
+  }
+}
+
+/* ---------------- Mobile panel ---------------- */
+.mobile-menu {
+  position: fixed;
+  inset: var(--header-height) 0 0 0;
+  z-index: 99;
+  background: var(--c-navy);
+  border-top: 1px solid var(--border-subtle);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  animation: fade-in 160ms var(--ease-out);
+}
+
+.mobile-menu__list {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3) var(--gutter) var(--space-10);
+  margin: 0;
+  list-style: none;
+}
+
+.mobile-menu__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-1);
+  min-height: 56px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--c-mist-74);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+.mobile-menu__link:hover,
+.mobile-menu__link[aria-current='true'] {
+  color: var(--c-mist);
+}
+
+.mobile-menu__link[aria-current='true'] {
+  font-weight: 650;
+}
+
+.mobile-menu__link svg {
+  color: var(--c-mist-68);
+  flex: none;
+}

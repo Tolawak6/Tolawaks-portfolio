@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="Sample project placeholder: task tracker interface">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#26374A"/>
+      <stop offset="100%" stop-color="#1F2C3D"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg1)"/>
+
+  <!-- Window chrome -->
+  <rect x="60" y="58" width="680" height="384" rx="12" fill="#27374D" fill-opacity="0.35" stroke="#DDE6ED" stroke-opacity="0.14" stroke-width="2"/>
+  <rect x="60" y="58" width="680" height="42" rx="12" fill="#27374D" fill-opacity="0.4"/>
+  <circle cx="88" cy="79" r="6" fill="#DDE6ED" fill-opacity="0.25"/>
+  <circle cx="110" cy="79" r="6" fill="#DDE6ED" fill-opacity="0.18"/>
+  <circle cx="132" cy="79" r="6" fill="#DDE6ED" fill-opacity="0.12"/>
+
+  <!-- Board columns -->
+  <g fill="#526D82" fill-opacity="0.55">
+    <rect x="88" y="124" width="192" height="292" rx="8"/>
+    <rect x="304" y="124" width="192" height="292" rx="8"/>
+    <rect x="520" y="124" width="192" height="292" rx="8"/>
+  </g>
+
+  <!-- Cards -->
+  <g fill="#DDE6ED" fill-opacity="0.14">
+    <rect x="104" y="150" width="160" height="54" rx="6"/>
+    <rect x="104" y="216" width="160" height="54" rx="6"/>
+    <rect x="320" y="150" width="160" height="54" rx="6"/>
+    <rect x="320" y="216" width="160" height="54" rx="6"/>
+    <rect x="320" y="282" width="160" height="54" rx="6"/>
+    <rect x="536" y="150" width="160" height="54" rx="6"/>
+  </g>
+
+  <!-- Accent ticks -->
+  <g fill="#DDE6ED" fill-opacity="0.45">
+    <rect x="104" y="150" width="3" height="54" rx="1.5"/>
+    <rect x="320" y="216" width="3" height="54" rx="1.5"/>
+    <rect x="536" y="150" width="3" height="54" rx="1.5"/>
+  </g>
+
+  <text x="400" y="484" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+        font-size="19" letter-spacing="4" fill="#DDE6ED" fill-opacity="0.34">SAMPLE PROJECT</text>
+</svg>

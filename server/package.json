@@ -1,0 +1,30 @@
+{
+  "name": "portfolio-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Express + PostgreSQL REST API powering the portfolio site",
+  "type": "module",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "db:migrate": "node src/db/migrate.js",
+    "db:migrate:reset": "node src/db/migrate.js --reset",
+    "db:seed": "node src/db/seed.js",
+    "db:seed:force": "node src/db/seed.js --force",
+    "db:reset": "node src/db/migrate.js --reset && node src/db/seed.js",
+    "admin:key": "node scripts/generate-admin-key.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "multer": "^2.4.0",
+    "pg": "^8.13.1"
+  }
+}

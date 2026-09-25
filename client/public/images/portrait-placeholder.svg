@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500" role="img" aria-label="Placeholder portrait">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#526D82"/>
+      <stop offset="58%" stop-color="#26374A"/>
+      <stop offset="100%" stop-color="#1F2C3D"/>
+    </radialGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0V60" fill="none" stroke="#DDE6ED" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="1500" fill="url(#glow)"/>
+  <rect width="1200" height="1500" fill="url(#grid)"/>
+
+  <!-- Simple avatar silhouette, drawn as geometry rather than a person -->
+  <g fill="#DDE6ED" fill-opacity="0.10">
+    <circle cx="600" cy="600" r="168"/>
+    <path d="M600 800c-186 0-336 118-366 276a24 24 0 0 0 23 30h686a24 24 0 0 0 23-30C936 918 786 800 600 800z"/>
+  </g>
+
+  <!-- Monogram -->
+  <g fill="#DDE6ED">
+    <text x="600" y="1180" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+          font-size="132" font-weight="700" letter-spacing="10" fill-opacity="0.92">TM</text>
+  </g>
+
+  <g fill="#DDE6ED" fill-opacity="0.55"
+     font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+     font-size="30" letter-spacing="6" text-anchor="middle">
+    <text x="600" y="1268">PORTRAIT PLACEHOLDER</text>
+  </g>
+  <g fill="#DDE6ED" fill-opacity="0.3"
+     font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+     font-size="23" letter-spacing="2" text-anchor="middle">
+    <text x="600" y="1322">Replace client/public/images/portrait.jpg</text>
+  </g>
+
+  <!-- Frame -->
+  <rect x="24" y="24" width="1152" height="1452" rx="18" fill="none"
+        stroke="#DDE6ED" stroke-opacity="0.16" stroke-width="2"/>
+</svg>

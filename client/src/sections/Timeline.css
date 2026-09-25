@@ -1,0 +1,174 @@
+/* =============================================================
+   Shared timeline layout for Experience and Education
+   ============================================================= */
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The connecting rule. Drawn on the list so it never overlaps card content. */
+@media (min-width: 860px) {
+  .timeline {
+    gap: var(--space-8);
+  }
+}
+
+.timeline__item {
+  position: relative;
+  padding-left: var(--space-8);
+}
+
+/* Vertical rule + node. Hidden on the narrowest screens where the indent would
+   eat too much of the card width. */
+.timeline__item::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 0.9rem;
+  bottom: calc(-1 * var(--space-6));
+  width: 1px;
+  background: var(--border-subtle);
+}
+
+.timeline__item:last-child::before {
+  display: none;
+}
+
+.timeline__marker {
+  position: absolute;
+  left: 0;
+  top: 1.15rem;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--c-slate);
+  border-radius: 50%;
+  background: var(--surface-page);
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+.section--alt .timeline__marker {
+  background: var(--surface-alt);
+}
+
+.timeline__item:hover .timeline__marker {
+  border-color: var(--c-mist);
+  background: var(--c-mist);
+}
+
+@media (max-width: 520px) {
+  .timeline__item {
+    padding-left: var(--space-6);
+  }
+}
+
+/* ---------------- Card ---------------- */
+.timeline__card {
+  padding: clamp(1.25rem, 1rem + 1.4vw, 1.85rem);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .timeline__card:hover {
+    border-color: var(--c-mist-68);
+    transform: translateY(-2px);
+  }
+}
+
+.timeline__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.timeline__position {
+  font-size: var(--text-xl);
+  font-weight: 640;
+}
+
+.timeline__org {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  color: var(--text-body);
+  font-size: var(--text-base);
+}
+
+.timeline__org-name {
+  color: var(--c-mist-90);
+  font-weight: 600;
+}
+
+.timeline__sep {
+  color: var(--c-mist-68);
+}
+
+.timeline__dates {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: 0.28rem 0.6rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  background: var(--surface-inset);
+  color: var(--c-mist-74);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
+}
+
+.timeline__dates svg {
+  color: var(--c-mist-68);
+  flex: none;
+}
+
+.timeline__description {
+  margin-top: var(--space-4);
+  color: var(--text-body);
+  font-size: var(--text-base);
+  max-width: 74ch;
+}
+
+.timeline__list {
+  margin-top: var(--space-4);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-3);
+  max-width: 74ch;
+}
+
+.timeline__list li {
+  position: relative;
+  padding-left: var(--space-6);
+  color: var(--text-body);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+/* Small bronze tick instead of a bullet character. */
+.timeline__list li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 10px;
+  height: 1.5px;
+  background: var(--c-slate-deep);
+  border-radius: 2px;
+}

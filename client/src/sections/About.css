@@ -1,0 +1,66 @@
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 1.2rem + 3vw, 3.5rem);
+}
+
+@media (min-width: 900px) {
+  .about__grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 1rem + 5vw, 5rem);
+  }
+}
+
+.about__prose {
+  max-width: 68ch;
+}
+
+.about__prose p {
+  font-size: var(--text-lg);
+  color: var(--text-body);
+}
+
+.about__prose p + p {
+  margin-top: var(--space-5);
+}
+
+/* First paragraph gets slightly stronger treatment so the section has a
+   clear point of entry. */
+.about__prose p:first-child {
+  color: var(--c-mist-90);
+}
+
+.about__panel {
+  align-self: start;
+  padding: clamp(1.5rem, 1rem + 2vw, 2rem);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+}
+
+.about__highlights {
+  display: grid;
+  gap: var(--space-5);
+  margin: 0;
+  list-style: none;
+}
+
+.about__highlight + .about__highlight {
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.about__highlight-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--c-mist-68);
+}
+
+.about__highlight-value {
+  margin-top: var(--space-2);
+  color: var(--c-mist-90);
+  font-size: var(--text-base);
+  line-height: 1.55;
+}

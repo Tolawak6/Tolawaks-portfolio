@@ -1,0 +1,22 @@
+{
+  "name": "portfolio-client",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "React + Vite portfolio frontend",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "node -e \"console.log('No linter configured. See README for how to add ESLint.')\""
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.1"
+  }
+}
