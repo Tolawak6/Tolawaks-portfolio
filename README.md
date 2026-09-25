@@ -221,7 +221,7 @@ SSL.
 | `CLOUDINARY_API_KEY` | for uploads | From the Cloudinary console. |
 | `CLOUDINARY_API_SECRET` | for uploads | **Secret.** Signs each upload. Never reaches the browser. |
 | `CLOUDINARY_FOLDER` | no | Where uploads are filed. Default `portfolio/projects`. |
-| `MAX_UPLOAD_MB` | no | Server-side size backstop. Default `5`. |
+| `MAX_UPLOAD_MB` | no | Server-side size backstop. Default `4`, which is safe on Vercel — see §15.5. |
 
 > **If `ADMIN_API_KEY` and `ADMIN_SESSION_SECRET` are missing, the admin write endpoints return
 > `503` and stay closed.** They never fall open.
@@ -460,7 +460,9 @@ around.
    | `CLOUDINARY_API_SECRET` | from Cloudinary |
 
    Do **not** set `PORT` — the platform provides it.
-   Do **not** set `MAX_UPLOAD_MB` above `4` (see 15.5).
+   Leave `MAX_UPLOAD_MB` at `4`. Vercel rejects request bodies over 4.5 MB
+   before the function runs, so a higher value produces a confusing 413 that
+   our own validation never gets to explain (see 15.5).
 
 4. Deploy, then confirm it is alive:
    ```bash
