@@ -10,7 +10,8 @@ through a `/admin` dashboard, and reach the page through the API.
 
 ## Table of contents
 
-1. [Project overview](#1-project-overview)
+1. [Quick start](#quick-start)
+2. [Project overview](#1-project-overview)
 2. [Technologies used](#2-technologies-used)
 3. [Folder structure](#3-folder-structure)
 4. [Frontend installation](#4-frontend-installation)
@@ -30,6 +31,43 @@ through a `/admin` dashboard, and reach the page through the API.
 18. [Image uploads](#18-image-uploads)
 19. [API reference](#19-api-reference)
 20. [Troubleshooting](#20-troubleshooting)
+
+---
+
+## Quick start
+
+From a fresh clone, one command installs everything and sets up the database:
+
+```bash
+bash scripts/bootstrap.sh
+```
+
+It installs PostgreSQL if missing, creates the database and role, writes
+`server/.env` with a generated admin key, installs both `node_modules`, and
+applies the schema with sample data. It is safe to run repeatedly — it detects
+what is already done and skips it.
+
+Then start the two servers:
+
+```bash
+npm run dev
+```
+
+| | |
+| --- | --- |
+| Portfolio | http://localhost:5173 |
+| Admin dashboard | http://localhost:5173/admin |
+| API | http://localhost:4000/api/health |
+
+Sign in to `/admin` with the `ADMIN_API_KEY` printed by the bootstrap script
+(or read it from `server/.env`).
+
+**Image uploads are optional.** Without Cloudinary credentials the admin form
+offers an image-URL field instead of a file picker. See §18 to switch it on.
+
+**Deploying?** Jump to §15 for the Vercel + Neon walkthrough.
+
+Everything below is the manual path, if you would rather do it step by step.
 
 ---
 
