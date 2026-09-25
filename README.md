@@ -753,8 +753,15 @@ actually landed in PostgreSQL.
 The function is receiving the wrong path. This is the most common Express-on-
 Vercel failure, and it is why `server/src/utils/requestPath.js` exists: it
 reduces whatever path the platform presents (`/api/projects`, `/projects`,
-`/api/index/projects`) to the canonical form. If you change the routing, run
-`node serverless-test.mjs` and check that all path shapes still resolve.
+`/api/index/projects`) to the canonical form. If you change the routing, verify
+with:
+
+```bash
+cd server
+node scripts/serverless-test.mjs
+```
+
+It exercises every path shape and must report 0 failures.
 
 **`413 FUNCTION_PAYLOAD_TOO_LARGE` when uploading an image.**
 The request body exceeded 4.5 MB. Lower `MAX_UPLOAD_MB` to 4 or below.

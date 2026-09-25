@@ -86,7 +86,15 @@ else
   sed -i.bak "s|^DATABASE_URL=.*|DATABASE_URL=postgresql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME|" server/.env
   rm -f server/.env.bak
   ok 'server/.env created from the example'
-  printf '  \033[33m! \033[0mgenerate admin credentials:  npm run admin:key\n'
+fi
+
+# Generate admin credentials if they are still blank, so a fresh download has a
+# working /admin without a manual step. The key is printed once - that is what
+# you type into the sign-in form at /admin.
+if ! grep -q '^ADMIN_API_KEY=.\+' server/.env 2>/dev/null; then
+  node "$ROOT/server/scripts/generate-admin-key.js" --write
+else
+  skip 'admin credentials already set'
 fi
 
 # Only needed when the frontend and backend are on different hosts, which is
@@ -137,8 +145,7 @@ echo "    npm run dev:web     # site only"
 echo "    npm run dev         # both"
 echo
 if ! grep -q '^ADMIN_API_KEY=.\+' server/.env 2>/dev/null; then
-  printf '  \033[33mNext:\033[0m no admin key set yet. Run  npm run admin:key  and paste the\n'
-  echo "        two lines into server/.env, then restart the API."
+  printf '  \033[33mNext:\033[0m no admin key set yet. Run  npm run admin:key -- --write\n'
   echo
 fi
 if ! grep -q '^CLOUDINARY_API_SECRET=.\+' server/.env 2>/dev/null; then
