@@ -45,3 +45,7 @@ coverage/
 # Vercel
 .vercel/
 .vercelignore.local
+
+# Archives
+*.zip
+*.tar.gz
