@@ -24,7 +24,7 @@ export const profile = {
   // Keep a single item if you want it to type & delete only "Full-Stack Web Developer".
   typewriterRoles: [
     'Full-Stack Web Developer',
-    'Integrating Machine Learning Solutions',
+    'ML Integration',
     'API Integration',
   ],
 

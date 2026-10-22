@@ -39,12 +39,8 @@ export function Hero() {
               //
             </span>{' '}
             <Typewriter phrases={profile.typewriterRoles} />
-            <span className="hero__role-sep" aria-hidden="true">
-              ·
-            </span>
-            <span className="hero__role-loc">{profile.location}</span>
           </p>
-
+          <p className="hero__role-loc">{profile.location}</p>
           <p className="hero__summary">{profile.heroSummary}</p>
 
           <div className="hero__actions">
