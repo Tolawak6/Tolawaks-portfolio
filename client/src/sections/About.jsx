@@ -1,58 +1,80 @@
-import { about, sections } from '../content/portfolio.js';
+import { about, education, sections } from '../content/portfolio.js';
 import { SectionHeading } from '../components/ui/SectionHeading.jsx';
+import { Icon } from '../components/ui/Icon.jsx';
 import './About.css';
 
-/**
- * 01 / About — Editorial Magazine Split + Swiss Specification Ledger.
- * All copy lives in src/content/portfolio.js.
- */
 export function About() {
-  const { eyebrow, title, intro } = sections.about;
-
   return (
-    <section className="section section--alt" id="about" aria-labelledby="about-heading">
+    <section id="about" className="section section--alt" aria-labelledby="about-heading">
       <div className="container">
         <SectionHeading
-          index="01"
-          eyebrow={eyebrow}
-          title={title}
-          intro={intro}
           id="about-heading"
+          eyebrow={sections.about.eyebrow}
+          title={sections.about.title}
         />
 
-        <div className="about__grid">
-          <div className="about__prose" data-reveal="">
-            {about.paragraphs.map((paragraph, index) => (
-              <p key={index} className={index === 0 ? 'about__lead' : undefined}>
-                {paragraph}
-              </p>
-            ))}
-          </div>
+        <p className="about-summary" data-reveal="">
+          {about.summary}
+        </p>
 
-          {about.highlights.length > 0 && (
-            <aside className="about__panel" aria-label="Technical profile summary" data-reveal="">
-              <div className="about__panel-head">
-                <span className="about__panel-badge">SPEC // PROFILE</span>
-                <span className="about__panel-count">
-                  {String(about.highlights.length).padStart(2, '0')} ITEMS
-                </span>
+        {/* 3 non-overlapping cards: Education | Core Focus | Languages */}
+        <div className="about-cards" data-reveal-group="">
+          <article className="arch-card about-card" data-reveal="">
+            <div className="about-card__head">
+              <span className="about-card__icon" aria-hidden="true">
+                <Icon name="graduation" size={20} />
+              </span>
+              <h3 className="about-card__title">Education</h3>
+            </div>
+
+            <div className="about-card__entries">
+              {education.map((item) => (
+                <div key={item.id} className="about-card__entry">
+                  <p className="about-card__primary">{item.degree}</p>
+                  <p className="about-card__secondary">{item.institution}</p>
+                  <p className="about-card__meta">
+                    {item.year} · {item.location} 
+                  </p>
+                  <p className='about-card__secondary'>CGPA : {item.CGPA}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="arch-card about-card" data-reveal="">
+            <div className="about-card__head">
+              <span className="about-card__icon" aria-hidden="true">
+                <Icon name="briefcase" size={20} />
+              </span>
+              <h3 className="about-card__title">Current Role</h3>
+            </div>
+
+            <div className="about-card__entries">
+              <div className="about-card__entry">
+                <p className="about-card__primary">{about.focus.primary}</p>
+                <p className="about-card__secondary">{about.focus.secondary}</p>
+                <p className="about-card__meta">{about.focus.meta}</p>
               </div>
+            </div>
+          </article>
 
-              <ul className="about__highlights">
-                {about.highlights.map((item, idx) => (
-                  <li key={item.label} className="about__highlight">
-                    <span className="about__highlight-num" aria-hidden="true">
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                    <div className="about__highlight-body">
-                      <p className="about__highlight-label">{item.label}</p>
-                      <p className="about__highlight-value">{item.value}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </aside>
-          )}
+          <article className="arch-card about-card" data-reveal="">
+            <div className="about-card__head">
+              <span className="about-card__icon" aria-hidden="true">
+                <Icon name="globe" size={20} />
+              </span>
+              <h3 className="about-card__title">Languages</h3>
+            </div>
+
+            <ul className="about-langs">
+              {about.languages.map((lang) => (
+                <li key={lang.name} className="about-langs__row">
+                  <span className="about-langs__name">{lang.name}</span>
+                  <span className="about-langs__level">{lang.level}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
         </div>
       </div>
     </section>

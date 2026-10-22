@@ -1,30 +1,35 @@
 import { useState } from 'react';
 import { Icon } from '../ui/Icon.jsx';
-import { Button } from '../ui/Button.jsx';
+import { TechIcon } from '../ui/TechIcon.jsx';
 import './ProjectCard.css';
 
+const VISIBLE_TAG_LIMIT = 4;
+
 /**
- * Editorial Swiss Case Card for a single project from PostgreSQL / REST API.
+ * Clean scannable Project Card (modeled after image-2.png):
+ * - Top 16:10 screenshot preview
+ * - Title + concise summary
+ * - Technology badges (with operable "+N" expand button when > 4)
+ * - Bottom "Code" (GitHub) and "Live" (external demo) action links
  */
 export function ProjectCard({ project, index = 0 }) {
   const [imageFailed, setImageFailed] = useState(false);
+  const [showAllTags, setShowAllTags] = useState(false);
 
   const hasImage = Boolean(project.image) && !imageFailed;
-  const hasLink = Boolean(project.link);
+  const hasLive = Boolean(project.link);
+  const hasCode = Boolean(project.codeLink);
+  const tags = Array.isArray(project.technologies) ? project.technologies : [];
+  const visibleTags = showAllTags ? tags : tags.slice(0, VISIBLE_TAG_LIMIT);
+  const hiddenCount = Math.max(0, tags.length - VISIBLE_TAG_LIMIT);
   const initial = project.name?.trim()?.charAt(0)?.toUpperCase() ?? '?';
-  const serial = String(index + 1).padStart(2, '0');
 
   return (
     <article
-      className="project-card"
+      className="arch-card project-card"
       data-reveal=""
-      style={{ '--reveal-delay': `${(index % 3) * 80}ms` }}
+      style={{ '--reveal-delay': `${(index % 3) * 75}ms` }}
     >
-      <div className="project-card__chrome" aria-hidden="true">
-        <span className="project-card__serial">PRJ // {serial}</span>
-        <span className="project-card__status-dot" />
-      </div>
-
       <div className="project-card__media">
         {hasImage ? (
           <img
@@ -38,7 +43,7 @@ export function ProjectCard({ project, index = 0 }) {
         ) : (
           <div className="project-card__placeholder" aria-hidden="true">
             <span className="project-card__placeholder-mark">{initial}</span>
-            <span className="project-card__placeholder-text">No image provided</span>
+            <span className="project-card__placeholder-text">Preview coming soon</span>
           </div>
         )}
       </div>
@@ -46,25 +51,61 @@ export function ProjectCard({ project, index = 0 }) {
       <div className="project-card__body">
         <h3 className="project-card__title">{project.name}</h3>
         <p className="project-card__description">{project.description}</p>
+
+        {tags.length > 0 && (
+          <ul className="project-card__tags" aria-label={`Technologies used in ${project.name}`}>
+            {visibleTags.map((tag) => (
+              <li key={tag} className="project-card__tag">
+                <TechIcon name={tag} size={13} />
+                <span>{tag}</span>
+              </li>
+            ))}
+
+            {hiddenCount > 0 && !showAllTags && (
+              <li>
+                <button
+                  type="button"
+                  className="project-card__tag project-card__tag--more"
+                  onClick={() => setShowAllTags(true)}
+                  aria-label={`Show ${hiddenCount} more ${hiddenCount === 1 ? 'technology' : 'technologies'}`}
+                >
+                  +{hiddenCount}
+                </button>
+              </li>
+            )}
+          </ul>
+        )}
       </div>
 
       <div className="project-card__footer">
-        {hasLink ? (
-          <Button
-            variant="accent"
-            size="sm"
-            href={project.link}
-            icon={<Icon name="arrowUpRight" size={15} />}
-            iconPosition="end"
-            aria-label={`View ${project.name} (opens in a new tab)`}
+        {hasCode && (
+          <a
+            href={project.codeLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-card__link"
+            aria-label={`View source code for ${project.name} (opens in a new tab)`}
           >
-            View Project
-          </Button>
-        ) : (
-          <span className="project-card__nolink">
-            <Icon name="alert" size={14} />
-            Link not available yet
-          </span>
+            <Icon name="github" size={16} />
+            <span>Code</span>
+          </a>
+        )}
+
+        {hasLive && (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-card__link project-card__link--live"
+            aria-label={`Open live project ${project.name} (opens in a new tab)`}
+          >
+            <Icon name="externalLink" size={16} />
+            <span>Live</span>
+          </a>
+        )}
+
+        {!hasCode && !hasLive && (
+          <span className="project-card__nolink">Links coming soon</span>
         )}
       </div>
     </article>
@@ -74,19 +115,21 @@ export function ProjectCard({ project, index = 0 }) {
 /** Skeleton shown while the project list is loading. */
 export function ProjectCardSkeleton() {
   return (
-    <div className="project-card project-card--skeleton" aria-hidden="true">
-      <div className="project-card__chrome">
-        <div className="skeleton" style={{ height: '0.75rem', width: '64px' }} />
-      </div>
+    <div className="arch-card project-card project-card--skeleton" aria-hidden="true">
       <div className="project-card__media skeleton" />
       <div className="project-card__body">
-        <div className="skeleton" style={{ height: '1.25rem', width: '58%' }} />
-        <div className="skeleton" style={{ height: '0.85rem', width: '100%', marginTop: '0.75rem' }} />
-        <div className="skeleton" style={{ height: '0.85rem', width: '88%', marginTop: '0.45rem' }} />
-        <div className="skeleton" style={{ height: '0.85rem', width: '64%', marginTop: '0.45rem' }} />
+        <div className="skeleton" style={{ height: '1.2rem', width: '62%' }} />
+        <div className="skeleton" style={{ height: '0.85rem', width: '100%', marginTop: '0.7rem' }} />
+        <div className="skeleton" style={{ height: '0.85rem', width: '82%', marginTop: '0.4rem' }} />
+        <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.9rem' }}>
+          <div className="skeleton" style={{ height: '24px', width: '64px' }} />
+          <div className="skeleton" style={{ height: '24px', width: '76px' }} />
+          <div className="skeleton" style={{ height: '24px', width: '58px' }} />
+        </div>
       </div>
       <div className="project-card__footer">
-        <div className="skeleton" style={{ height: '38px', width: '132px' }} />
+        <div className="skeleton" style={{ height: '22px', width: '64px' }} />
+        <div className="skeleton" style={{ height: '22px', width: '64px' }} />
       </div>
     </div>
   );

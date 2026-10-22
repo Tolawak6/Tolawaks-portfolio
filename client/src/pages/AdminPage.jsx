@@ -65,7 +65,9 @@ function AdminDashboard({ session, tab, onTabChange, onSignOut, onSessionExpired
   const [deletingId, setDeletingId] = useState(null);
 
   const formRef = useRef(null);
+  const importInputRef = useRef(null);
   const noticeTimer = useRef(null);
+  const [importing, setImporting] = useState(false);
 
   // Messages are loaded lazily, only when that tab is opened.
   const [messages, setMessages] = useState([]);
@@ -187,6 +189,75 @@ function AdminDashboard({ session, tab, onTabChange, onSignOut, onSessionExpired
     });
   }
 
+  function handleExportJson() {
+    const clean = projects.map((p) => ({
+      name: p.name,
+      image: p.image ?? '',
+      imagePublicId: p.imagePublicId ?? '',
+      link: p.link ?? '',
+      codeLink: p.codeLink ?? '',
+      technologies: Array.isArray(p.technologies) ? p.technologies : [],
+      description: p.description,
+    }));
+    const blob = new Blob([JSON.stringify({ projects: clean }, null, 2)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tolawak-projects-backup.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function handleImportJson(event) {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    setImporting(true);
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      const list = Array.isArray(parsed?.projects)
+        ? parsed.projects
+        : Array.isArray(parsed)
+          ? parsed
+          : null;
+      if (!list || list.length === 0) {
+        flash('No projects found in that JSON file.', 'error');
+        return;
+      }
+
+      // Insert oldest-first so newest stays first.
+      let added = 0;
+      for (const item of [...list].reverse()) {
+        if (!item?.name || !item?.description) continue;
+        await createProject(
+          {
+            name: String(item.name),
+            image: String(item.image ?? ''),
+            imagePublicId: String(item.imagePublicId ?? ''),
+            link: String(item.link ?? ''),
+            codeLink: String(item.codeLink ?? ''),
+            technologies: Array.isArray(item.technologies) ? item.technologies : [],
+            description: String(item.description),
+          },
+          token,
+        );
+        added += 1;
+      }
+
+      await reload();
+      flash(`Imported ${added} project${added === 1 ? '' : 's'} into PostgreSQL.`);
+    } catch (caught) {
+      handleApiError(caught);
+      flash(caught?.message ?? 'Could not import that JSON file.', 'error');
+    } finally {
+      setImporting(false);
+    }
+  }
+
   const sessionExpiry = session.expiresAt
     ? new Date(session.expiresAt).toLocaleTimeString(undefined, {
         hour: '2-digit',
@@ -294,15 +365,42 @@ function AdminDashboard({ session, tab, onTabChange, onSignOut, onSessionExpired
                 <h2 className="admin__section-title" id="admin-list-heading">
                   Existing projects
                 </h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={reload}
-                  disabled={status === 'loading'}
-                  icon={<Icon name="refresh" size={14} />}
-                >
-                  Refresh
-                </Button>
+                <div className="admin-table__actions">
+                  <input
+                    ref={importInputRef}
+                    type="file"
+                    accept="application/json,.json"
+                    className="visually-hidden"
+                    onChange={handleImportJson}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => importInputRef.current?.click()}
+                    loading={importing}
+                    icon={<Icon name="plus" size={14} />}
+                  >
+                    Import JSON
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleExportJson}
+                    disabled={projects.length === 0}
+                    icon={<Icon name="download" size={14} />}
+                  >
+                    Export JSON
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={reload}
+                    disabled={status === 'loading'}
+                    icon={<Icon name="refresh" size={14} />}
+                  >
+                    Refresh
+                  </Button>
+                </div>
               </div>
 
               {status === 'loading' && (

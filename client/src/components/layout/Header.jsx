@@ -3,24 +3,29 @@ import { Link, useLocation } from 'react-router-dom';
 import { navigation, profile } from '../../content/portfolio.js';
 import { useScrollSpy, useScrolled } from '../../hooks/useScrollSpy.js';
 import { useLockBodyScroll } from '../../hooks/useLockBodyScroll.js';
+import { useTheme } from '../../hooks/useTheme.js';
 import { Icon } from '../ui/Icon.jsx';
 import './Header.css';
 
 const SECTION_IDS = navigation.map((item) => item.id);
 
 /**
- * Sticky architectural Swiss header (#000000 + #FDBF2D).
+ * Sticky architectural Swiss header (#000000 + #FDBF2D, Dark & Light modes).
  *
- * - Solid #FDBF2D monogram badge with #000000 ink.
- * - Numbered navigation items with scroll-spy active highlight.
- * - Dedicated high-contrast header CTA on desktop + accessible mobile drawer.
+ * Keeps top actions clean & non-repetitive:
+ * - Brand mark + "Tolawak M. Abetu"
+ * - Section links (About, Experience, Tech Stack, Projects, Contact)
+ * - GitHub profile link on top + Light/Dark theme toggle
+ *   ("Download CV" lives solely in the Hero CTA so it is not repeated)
  */
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const location = useLocation();
   const onHomePage = location.pathname === '/';
   const scrolled = useScrolled(10);
   const activeId = useScrollSpy(onHomePage ? SECTION_IDS : []);
+  const { isDark, toggleTheme } = useTheme();
   const panelRef = useRef(null);
   const toggleRef = useRef(null);
 
@@ -29,6 +34,29 @@ export function Header() {
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    let rafId = 0;
+    const updateProgress = () => {
+      rafId = 0;
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      setScrollProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
+    };
+
+    const onScroll = () => {
+      if (!rafId) rafId = window.requestAnimationFrame(updateProgress);
+    };
+
+    updateProgress();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
@@ -58,10 +86,8 @@ export function Header() {
   }, []);
 
   const sectionHref = (id) => (onHomePage ? `#${id}` : `/#${id}`);
-
-  // Primary nav skips "Home" visually because the brand mark links home, keeping
-  // the Swiss bar crisp and uncluttered; "Home" stays first in the mobile menu.
   const desktopItems = navigation.filter((item) => item.id !== 'home');
+  const nextModeLabel = isDark ? 'Switch to light mode' : 'Switch to dark mode';
 
   return (
     <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
@@ -72,15 +98,13 @@ export function Header() {
           </span>
           <span className="site-header__brand-copy">
             <span className="site-header__name">{profile.name}</span>
-            <span className="site-header__role">{profile.title}</span>
           </span>
         </Link>
 
         <nav className="site-nav" aria-label="Primary">
           <ul className="site-nav__list">
-            {desktopItems.map((item, idx) => {
+            {desktopItems.map((item) => {
               const isActive = onHomePage && activeId === item.id;
-              const num = String(idx + 1).padStart(2, '0');
               return (
                 <li key={item.id}>
                   <a
@@ -88,9 +112,6 @@ export function Header() {
                     className={`site-nav__link ${isActive ? 'is-active' : ''}`}
                     aria-current={isActive ? 'true' : undefined}
                   >
-                    <span className="site-nav__num" aria-hidden="true">
-                      {num}
-                    </span>
                     {item.label}
                   </a>
                 </li>
@@ -100,10 +121,27 @@ export function Header() {
         </nav>
 
         <div className="site-header__actions">
-          <a href={sectionHref('contact')} className="site-header__cta">
-            Let&apos;s Talk
-            <Icon name="arrowUpRight" size={15} />
+          <a
+            href={profile.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="site-header__icon-btn site-header__github"
+            aria-label={`GitHub profile (${profile.githubHandle})`}
+            title={`GitHub (@${profile.githubHandle})`}
+          >
+            <Icon name="github" size={18} />
+            <span className="site-header__github-label">GitHub</span>
           </a>
+
+          <button
+            type="button"
+            className="site-header__icon-btn site-header__theme-btn"
+            onClick={toggleTheme}
+            aria-label={nextModeLabel}
+            title={nextModeLabel}
+          >
+            <Icon name={isDark ? 'sun' : 'moon'} size={18} />
+          </button>
 
           <button
             ref={toggleRef}
@@ -119,13 +157,20 @@ export function Header() {
         </div>
       </div>
 
+      {/* Subtle reading progress bar */}
+      <div className="site-header__progress" aria-hidden="true">
+        <span
+          className="site-header__progress-bar"
+          style={{ transform: `scaleX(${scrollProgress})` }}
+        />
+      </div>
+
       {menuOpen && (
         <div className="mobile-menu" id="mobile-menu" ref={panelRef}>
           <nav className="container" aria-label="Mobile">
             <ul className="mobile-menu__list">
-              {navigation.map((item, idx) => {
+              {navigation.map((item) => {
                 const isActive = onHomePage && activeId === item.id;
-                const num = String(idx).padStart(2, '0');
                 return (
                   <li key={item.id}>
                     <a
@@ -134,29 +179,13 @@ export function Header() {
                       aria-current={isActive ? 'true' : undefined}
                       onClick={() => setMenuOpen(false)}
                     >
-                      <span className="mobile-menu__left">
-                        <span className="mobile-menu__num" aria-hidden="true">
-                          {num}
-                        </span>
-                        <span>{item.label}</span>
-                      </span>
-                      <Icon name="arrowRight" size={18} />
+                      <span>{item.label}</span>
+                      <Icon name="arrowRight" size={16} />
                     </a>
                   </li>
                 );
               })}
             </ul>
-
-            <div className="mobile-menu__footer">
-              <a
-                href={sectionHref('contact')}
-                className="btn btn--primary btn--block"
-                onClick={() => setMenuOpen(false)}
-              >
-                Start a Conversation
-                <Icon name="arrowRight" size={16} />
-              </a>
-            </div>
           </nav>
         </div>
       )}

@@ -14,6 +14,8 @@ const PROJECT_COLUMNS = `
   image,
   image_public_id AS "imagePublicId",
   link,
+  code_link AS "codeLink",
+  technologies,
   description,
   created_at AS "createdAt",
   updated_at AS "updatedAt"
@@ -38,14 +40,16 @@ export async function create({
   name,
   image,
   imagePublicId = '',
-  link,
+  link = '',
+  codeLink = '',
+  technologies = [],
   description,
 }) {
   const { rows } = await query(
-    `INSERT INTO projects (name, image, image_public_id, link, description)
-     VALUES ($1, $2, $3, $4, $5)
+    `INSERT INTO projects (name, image, image_public_id, link, code_link, technologies, description)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
      RETURNING ${PROJECT_COLUMNS}`,
-    [name, image, imagePublicId, link, description],
+    [name, image, imagePublicId, link, codeLink, technologies, description],
   );
   return rows[0];
 }
@@ -56,7 +60,7 @@ export async function create({
  */
 export async function update(
   id,
-  { name, image, imagePublicId = '', link, description },
+  { name, image, imagePublicId = '', link = '', codeLink = '', technologies = [], description },
 ) {
   const { rows } = await query(
     `UPDATE projects
@@ -64,10 +68,12 @@ export async function update(
             image = $3,
             image_public_id = $4,
             link = $5,
-            description = $6
+            code_link = $6,
+            technologies = $7,
+            description = $8
       WHERE id = $1
       RETURNING ${PROJECT_COLUMNS}`,
-    [id, name, image, imagePublicId, link, description],
+    [id, name, image, imagePublicId, link, codeLink, technologies, description],
   );
   return rows[0] ?? null;
 }

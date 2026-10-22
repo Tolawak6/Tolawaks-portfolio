@@ -1,122 +1,117 @@
-.about__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(2.25rem, 1.4rem + 3vw, 3.75rem);
-}
+/* =============================================================
+   About Me — Simple, Scannable 3-Card Layout (zero repetition)
+   ============================================================= */
 
-@media (min-width: 920px) {
-  .about__grid {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 1.2rem + 4.5vw, 4.75rem);
-    align-items: start;
-  }
-}
-
-.about__prose {
-  max-width: 64ch;
-}
-
-.about__prose p {
-  font-size: var(--text-lg);
+.about-summary {
+  max-width: 68ch;
+  margin-bottom: var(--space-8);
   color: var(--text-body);
+  font-size: var(--text-lg);
   line-height: 1.72;
 }
 
-.about__prose p + p {
-  margin-top: var(--space-5);
+.about-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
 }
 
-.about__lead {
-  padding-left: var(--space-5);
-  border-left: 3px solid var(--c-gold);
+@media (min-width: 860px) {
+  .about-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.about-card {
+  padding: clamp(1.35rem, 1.1rem + 0.9vw, 1.85rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.about-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.about-card__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-accent-soft);
+  background: var(--c-gold-08);
+  color: var(--text-accent);
+  flex: none;
+}
+
+.about-card__title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.about-card__entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.about-card__primary {
+  color: var(--text-heading);
   font-family: var(--font-display);
-  font-size: var(--text-xl) !important;
-  font-weight: 500;
-  line-height: 1.48 !important;
-  color: var(--c-ivory) !important;
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
-/* ---------------- Swiss Spec Ledger ---------------- */
-.about__panel {
-  border: 1px solid var(--border-strong);
-  border-top: 3px solid var(--c-gold);
-  border-radius: var(--radius-md);
-  background: var(--surface-card);
-  overflow: hidden;
+.about-card__secondary {
+  margin-top: 3px;
+  color: var(--text-accent);
+  font-size: var(--text-sm);
+  font-weight: 600;
 }
 
-.about__panel-head {
+.about-card__meta {
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+/* ---- Languages 2-column rows ---- */
+.about-langs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.about-langs__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: 0.8rem clamp(1.25rem, 1rem + 1.4vw, 1.75rem);
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--surface-inset);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px dashed var(--border-subtle);
+  font-size: var(--text-sm);
 }
 
-.about__panel-badge {
-  color: var(--c-gold);
-  font-weight: 700;
+.about-langs__row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
-.about__panel-count {
-  color: var(--text-muted);
+.about-langs__name {
+  color: var(--text-heading);
+  font-weight: 600;
 }
 
-.about__highlights {
-  display: grid;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.about__highlight {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--space-4);
-  padding: var(--space-4) clamp(1.25rem, 1rem + 1.4vw, 1.75rem);
-  border-bottom: 1px solid var(--border-subtle);
-  transition: background-color var(--dur-base) var(--ease-out);
-}
-
-.about__highlight:last-child {
-  border-bottom: none;
-}
-
-.about__highlight:hover {
-  background: var(--c-gold-04);
-}
-
-.about__highlight-num {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 700;
-  color: var(--c-gold);
-  padding-top: 2px;
-  font-variant-numeric: tabular-nums;
-}
-
-.about__highlight-body {
-  min-width: 0;
-}
-
-.about__highlight-label {
+.about-langs__level {
+  color: var(--text-accent);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: 600;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.about__highlight-value {
-  margin-top: var(--space-1);
-  color: var(--c-ivory);
-  font-size: var(--text-base);
-  line-height: 1.52;
 }

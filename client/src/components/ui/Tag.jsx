@@ -1,3 +1,4 @@
+import { TechIcon } from './TechIcon.jsx';
 import './ui.css';
 
 const LEVEL_LABELS = {
@@ -7,19 +8,18 @@ const LEVEL_LABELS = {
 };
 
 /**
- * A single technology chip.
- *
- * `level` is optional and unset by default - the chip then makes no claim about
- * proficiency at all. When a level is present it is conveyed by both a colour
- * dot and a visually-hidden text label, so it never relies on colour alone.
+ * A single technology chip with an inline tool SVG icon (modeled after clean
+ * developer tech-stack badges).
  */
-export function Tag({ children, level }) {
+export function Tag({ children, level, showIcon = true }) {
   const hasLevel = Boolean(level) && Boolean(LEVEL_LABELS[level]);
+  const label = typeof children === 'string' ? children : '';
 
   return (
     <li className="tag">
-      {hasLevel && <span className={`tag__dot tag__dot--${level}`} aria-hidden="true" />}
+      {showIcon && label && <TechIcon name={label} size={16} className="tag__icon" />}
       <span>{children}</span>
+      {hasLevel && <span className={`tag__dot tag__dot--${level}`} aria-hidden="true" />}
       {hasLevel && <span className="visually-hidden">- {LEVEL_LABELS[level]}</span>}
     </li>
   );

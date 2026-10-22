@@ -9,18 +9,14 @@ import './Projects.css';
 
 const SKELETON_COUNT = 3;
 
-/**
- * 03 / Projects — Dynamic portfolio work fetched from GET /api/projects.
- */
 export function Projects() {
   const { projects, status, error, reload } = useProjects();
   const { eyebrow, title, intro } = sections.projects;
 
   return (
-    <section className="section section--alt" id="projects" aria-labelledby="projects-heading">
+    <section className="section section--page" id="projects" aria-labelledby="projects-heading">
       <div className="container">
         <SectionHeading
-          index="03"
           eyebrow={eyebrow}
           title={title}
           intro={intro}
@@ -64,12 +60,12 @@ export function Projects() {
           {status === 'success' && projects.length === 0 && (
             <div className="state-block" data-reveal="">
               <span className="state-block__icon">
-                <Icon name="layout" size={30} />
+                <Icon name="layout" size={28} />
               </span>
               <h3 className="state-block__title">Projects are on the way</h3>
               <p className="state-block__body">
                 Nothing is published here yet. Projects are managed from the admin dashboard and
-                will appear in this section as soon as they are added.
+                appear here automatically once added.
               </p>
             </div>
           )}

@@ -1,167 +1,41 @@
 /* =============================================================
-   02 / Skills — 12-Column Asymmetric Swiss Bento Grid
+   Tech Stack — 2-Column Category Grid + Tool Icons (image-3.png)
    ============================================================= */
 
-.skills__bento {
+.skills-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-4);
-  margin: 0;
-  list-style: none;
-  padding: 0;
+  gap: var(--space-5);
 }
 
-/* Tablet: 2-column Bento where the lead Frontend tile spans full width
-   so 7 tiles pack cleanly into 4 rows (2 + 1+1 + 1+1 + 1+1 = 8 cells). */
-@media (min-width: 680px) {
-  .skills__bento {
+@media (min-width: 760px) {
+  .skills-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-5);
-  }
-
-  .skills__bento > :first-child {
-    grid-column: span 2;
-  }
-}
-
-/* Desktop: 12-column Swiss Bento Grid:
-   Row 1: 7 + 5 = 12
-   Row 2: 4 + 4 + 4 = 12
-   Row 3: 5 + 7 = 12 */
-@media (min-width: 1040px) {
-  .skills__bento {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: var(--space-5);
-  }
-
-  .skills__bento > * {
-    grid-column: span 4;
-  }
-
-  .skills__bento > :nth-child(1) {
-    grid-column: span 7;
-  }
-
-  .skills__bento > :nth-child(2) {
-    grid-column: span 5;
-  }
-
-  .skills__bento > :nth-child(3),
-  .skills__bento > :nth-child(4),
-  .skills__bento > :nth-child(5) {
-    grid-column: span 4;
-  }
-
-  .skills__bento > :nth-child(6) {
-    grid-column: span 5;
-  }
-
-  .skills__bento > :nth-child(7) {
-    grid-column: span 7;
   }
 }
 
 .skill-card {
-  position: relative;
+  padding: clamp(1.35rem, 1.1rem + 0.8vw, 1.75rem);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  padding: clamp(1.35rem, 1.05rem + 1.2vw, 1.85rem);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background: var(--surface-card);
-  transition:
-    border-color var(--dur-base) var(--ease-out),
-    background-color var(--dur-base) var(--ease-out),
-    transform var(--dur-base) var(--ease-out),
-    box-shadow var(--dur-base) var(--ease-out);
-}
-
-/* Featured lead Bento tile gets a crisp Solar Gold top bar */
-.skill-card--frontend {
-  border-top: 2px solid var(--c-gold);
-  background: linear-gradient(180deg, rgba(253, 191, 45, 0.05) 0%, var(--surface-card) 55%);
-}
-
-@media (hover: hover) {
-  .skill-card:hover {
-    border-color: var(--c-gold);
-    background-color: var(--surface-card-hover);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-  }
-}
-
-.skill-card__meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.skill-card__code {
-  color: var(--c-gold);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.skill-card__count {
-  color: var(--text-muted);
-}
-
-.skill-card__head {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-top: var(--space-1);
-}
-
-.skill-card__icon {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  flex: none;
-  border: 1px solid var(--border-accent-soft);
-  border-radius: var(--radius-sm);
-  background: var(--c-gold-08);
-  color: var(--c-gold);
-  transition:
-    background-color var(--dur-base) var(--ease-out),
-    color var(--dur-base) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .skill-card:hover .skill-card__icon {
-    background: var(--c-gold);
-    color: var(--c-black);
-  }
+  gap: var(--space-4);
 }
 
 .skill-card__title {
-  font-size: var(--text-xl);
+  color: var(--text-accent);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
   font-weight: 700;
-}
-
-.skill-card__summary {
-  color: var(--text-muted);
-  font-size: var(--text-sm);
-  line-height: 1.58;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .skill-card__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  margin: 0;
-  margin-top: auto;
-  padding: 0;
-  padding-top: var(--space-3);
-  list-style: none;
+  gap: 0.55rem;
+}
+
+.tag__icon {
+  flex: none;
 }

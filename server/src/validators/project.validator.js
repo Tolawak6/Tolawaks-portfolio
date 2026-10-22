@@ -12,7 +12,10 @@ const LIMITS = {
   image: 2048,
   imagePublicId: 300,
   link: 2048,
+  codeLink: 2048,
   description: 2000,
+  technologyCount: 20,
+  technologyLength: 40,
 };
 
 /** Accepts absolute http(s) URLs as well as site-relative paths like /images/a.png */
@@ -138,6 +141,67 @@ export function validateProjectPayload(body, { partial = false } = {}) {
     }
   } else if (!partial) {
     value.imagePublicId = '';
+  }
+
+  // ---- codeLink (optional source / GitHub repository URL) --------------
+  if (body.codeLink !== undefined && body.codeLink !== null) {
+    const codeLink = String(body.codeLink).trim();
+    if (codeLink.length > LIMITS.codeLink) {
+      errors.push({
+        field: 'codeLink',
+        message: `Repository URL must be ${LIMITS.codeLink} characters or fewer.`,
+      });
+    } else if (codeLink && !isUsableUrl(codeLink)) {
+      errors.push({
+        field: 'codeLink',
+        message: 'Repository URL must be an absolute http(s) URL or a path starting with "/".',
+      });
+    } else {
+      value.codeLink = codeLink;
+    }
+  } else if (!partial) {
+    value.codeLink = '';
+  }
+
+  // ---- technologies (optional array or comma-separated string) ---------
+  if (body.technologies !== undefined && body.technologies !== null) {
+    let rawItems = [];
+    if (Array.isArray(body.technologies)) {
+      rawItems = body.technologies.map((item) => String(item ?? '').trim());
+    } else if (typeof body.technologies === 'string') {
+      rawItems = body.technologies.split(',').map((item) => item.trim());
+    } else {
+      errors.push({
+        field: 'technologies',
+        message: 'Technologies must be an array of strings or a comma-separated list.',
+      });
+    }
+
+    const cleaned = [];
+    const seen = new Set();
+    for (const tag of rawItems) {
+      if (!tag) continue;
+      const key = tag.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      cleaned.push(tag);
+    }
+
+    if (cleaned.length > LIMITS.technologyCount) {
+      errors.push({
+        field: 'technologies',
+        message: `List at most ${LIMITS.technologyCount} technologies per project.`,
+      });
+    } else if (cleaned.some((tag) => tag.length > LIMITS.technologyLength)) {
+      errors.push({
+        field: 'technologies',
+        message: `Each technology name must be ${LIMITS.technologyLength} characters or fewer.`,
+      });
+    } else if (!errors.some((e) => e.field === 'technologies')) {
+      value.technologies = cleaned;
+    }
+  } else if (!partial) {
+    value.technologies = [];
   }
 
   return { value, errors };

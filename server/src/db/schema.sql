@@ -35,14 +35,22 @@ CREATE TABLE IF NOT EXISTS projects (
 -- Stores the storage provider's identifier for an uploaded image, so that
 -- replacing or deleting a project can clean up the asset it left behind.
 -- Empty for projects whose image is a pasted URL, which we never delete.
--- Added separately from CREATE TABLE so existing databases pick it up too.
+-- Added separately from CREATE TABLE so existing databases pick them up too.
 ALTER TABLE projects
   ADD COLUMN IF NOT EXISTS image_public_id TEXT NOT NULL DEFAULT '';
+
+ALTER TABLE projects
+  ADD COLUMN IF NOT EXISTS code_link TEXT NOT NULL DEFAULT '';
+
+ALTER TABLE projects
+  ADD COLUMN IF NOT EXISTS technologies TEXT[] NOT NULL DEFAULT '{}';
 
 COMMENT ON TABLE  projects             IS 'Portfolio projects rendered by the frontend Projects section.';
 COMMENT ON COLUMN projects.image       IS 'Image URL (absolute https:// or site-relative /path). May be empty.';
 COMMENT ON COLUMN projects.image_public_id IS 'Storage asset id for images uploaded through the admin dashboard. Empty for externally hosted images.';
-COMMENT ON COLUMN projects.link        IS 'Live project or repository URL. May be empty.';
+COMMENT ON COLUMN projects.link        IS 'Live project deployment URL. May be empty.';
+COMMENT ON COLUMN projects.code_link   IS 'Source repository URL (e.g. GitHub). May be empty.';
+COMMENT ON COLUMN projects.technologies IS 'Ordered list of technology names shown on the project card.';
 COMMENT ON COLUMN projects.description IS 'Short description shown on the project card.';
 
 CREATE INDEX IF NOT EXISTS projects_created_at_idx ON projects (created_at DESC);

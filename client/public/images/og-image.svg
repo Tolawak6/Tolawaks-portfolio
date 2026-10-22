@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Tolawak Merga - Full-Stack Web Developer">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Tolawak M. Abetu - Full-Stack Web Developer">
   <defs>
     <radialGradient id="glow" cx="82%" cy="26%" r="58%">
       <stop offset="0%" stop-color="#FDBF2D" stop-opacity="0.22"/>
       <stop offset="100%" stop-color="#FDBF2D" stop-opacity="0"/>
     </radialGradient>
-    <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
-      <path d="M56 0H0V56" fill="none" stroke="#FDBF2D" stroke-opacity="0.07" stroke-width="1"/>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#FDBF2D" fill-opacity="0.16"/>
     </pattern>
   </defs>
 
@@ -18,28 +18,28 @@
 
   <!-- Monogram mark -->
   <g>
-    <rect x="88" y="128" width="84" height="84" rx="8" fill="#FDBF2D"/>
-    <text x="130" y="183" text-anchor="middle"
+    <rect x="88" y="124" width="84" height="84" rx="8" fill="#FDBF2D"/>
+    <text x="130" y="179" text-anchor="middle"
           font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
           font-size="36" font-weight="800" fill="#000000" letter-spacing="2">TM</text>
   </g>
 
   <!-- Name -->
-  <text x="88" y="318"
+  <text x="88" y="314"
         font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-        font-size="88" font-weight="800" fill="#F7F5F0" letter-spacing="-3">Tolawak <tspan fill="#FDBF2D">Merga.</tspan></text>
+        font-size="82" font-weight="800" fill="#F7F5F0" letter-spacing="-2.5">Tolawak M. <tspan fill="#FDBF2D">Abetu.</tspan></text>
 
   <!-- Title -->
-  <text x="88" y="384"
+  <text x="88" y="382"
         font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-        font-size="30" font-weight="600" fill="#FDBF2D" letter-spacing="2">// FULL-STACK WEB DEVELOPER</text>
+        font-size="28" font-weight="600" fill="#FDBF2D" letter-spacing="2">// FULL-STACK WEB DEVELOPER</text>
 
   <!-- Rule -->
-  <rect x="88" y="428" width="120" height="4" fill="#FDBF2D"/>
-  <rect x="208" y="430" width="904" height="1" fill="#F7F5F0" fill-opacity="0.16"/>
+  <rect x="88" y="426" width="120" height="4" fill="#FDBF2D"/>
+  <rect x="208" y="428" width="904" height="1" fill="#F7F5F0" fill-opacity="0.16"/>
 
   <!-- Stack line -->
-  <text x="88" y="496"
+  <text x="88" y="494"
         font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
         font-size="22" fill="#D6D3CB" letter-spacing="1.2">React · Node.js · Express · PostgreSQL · Python</text>
 

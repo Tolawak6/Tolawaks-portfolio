@@ -1,11 +1,33 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Button } from '../ui/Button.jsx';
 import { Alert } from '../ui/Alert.jsx';
 import { Icon } from '../ui/Icon.jsx';
 import { ImagePicker } from './ImagePicker.jsx';
 import { ApiError } from '../../services/api.js';
 
-const EMPTY = { name: '', image: '', imagePublicId: '', link: '', description: '' };
+const EMPTY = {
+  name: '',
+  image: '',
+  imagePublicId: '',
+  link: '',
+  codeLink: '',
+  technologiesText: '',
+  description: '',
+};
+
+function parseTechnologies(raw) {
+  const seen = new Set();
+  const out = [];
+  for (const part of String(raw ?? '').split(',')) {
+    const tag = part.trim();
+    if (!tag) continue;
+    const key = tag.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(tag);
+  }
+  return out;
+}
 
 /** Mirrors the API validation rules so mistakes are caught before a round trip. */
 function validate(values) {
@@ -19,8 +41,6 @@ function validate(values) {
   if (!description) errors.description = 'Description is required.';
   else if (description.length > 2000) errors.description = 'Keep the description under 2000 characters.';
 
-  // Only pasted URLs can be malformed. Anything that came back from an upload
-  // is a URL the storage provider generated, so there is nothing to check.
   const image = values.image.trim();
   if (image && !values.imagePublicId && !isUrlLike(image)) {
     errors.image = 'Use a full URL (https://…) or a path starting with "/".';
@@ -29,6 +49,18 @@ function validate(values) {
   const link = values.link.trim();
   if (link && !isUrlLike(link)) {
     errors.link = 'Use a full URL (https://…) or a path starting with "/".';
+  }
+
+  const codeLink = values.codeLink.trim();
+  if (codeLink && !isUrlLike(codeLink)) {
+    errors.codeLink = 'Use a full URL (https://…) or a path starting with "/".';
+  }
+
+  const tags = parseTechnologies(values.technologiesText);
+  if (tags.length > 20) {
+    errors.technologies = 'List at most 20 technologies per project.';
+  } else if (tags.some((t) => t.length > 40)) {
+    errors.technologies = 'Keep each technology name under 40 characters.';
   }
 
   return errors;
@@ -46,12 +78,6 @@ function isUrlLike(value) {
 
 /**
  * Add / edit form for a project.
- *
- * The same component handles both modes so the fields, validation and layout
- * can never drift apart. `project` is null when adding.
- *
- * The image field is delegated to ImagePicker, which owns the upload lifecycle
- * and reports back a URL plus the storage id needed to clean the asset up later.
  */
 export function ProjectForm({
   project = null,
@@ -61,18 +87,16 @@ export function ProjectForm({
   submitError = null,
   token,
   uploadsConfigured = true,
-  maxUploadMb = 5,
+  maxUploadMb = 4,
 }) {
   const uid = useId();
   const isEditing = Boolean(project);
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [uploadBusy, setUploadBusy] = useState(false);
-  // Bumped after a successful add so the picker remounts with a clean slate.
   const [formKey, setFormKey] = useState(0);
   const nameRef = useRef(null);
 
-  // Load the project being edited, or reset to blank when switching to "add".
   useEffect(() => {
     setValues(
       project
@@ -81,6 +105,10 @@ export function ProjectForm({
             image: project.image ?? '',
             imagePublicId: project.imagePublicId ?? '',
             link: project.link ?? '',
+            codeLink: project.codeLink ?? '',
+            technologiesText: Array.isArray(project.technologies)
+              ? project.technologies.join(', ')
+              : '',
             description: project.description ?? '',
           }
         : EMPTY,
@@ -89,23 +117,26 @@ export function ProjectForm({
     setFormKey((key) => key + 1);
   }, [project]);
 
-  // Server-side 422 detail maps back onto the fields.
   useEffect(() => {
     if (submitError instanceof ApiError && Object.keys(submitError.fieldErrors).length > 0) {
       setErrors(submitError.fieldErrors);
     }
   }, [submitError]);
 
+  const previewTags = useMemo(
+    () => parseTechnologies(values.technologiesText),
+    [values.technologiesText],
+  );
+
   const fieldId = (field) => `${uid}-${field}`;
   const errorId = (field) => `${uid}-${field}-error`;
 
-  const update = (field) => (event) => {
+  const update = (field, errKey = field) => (event) => {
     const { value } = event.target;
     setValues((prev) => ({ ...prev, [field]: value }));
-    setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
+    setErrors((prev) => (prev[errKey] ? { ...prev, [errKey]: undefined } : prev));
   };
 
-  /** ImagePicker reports both halves of an image together. */
   const handleImageChange = ({ url, publicId }) => {
     setValues((prev) => ({ ...prev, image: url, imagePublicId: publicId }));
     setErrors((prev) => (prev.image ? { ...prev, image: undefined } : prev));
@@ -113,16 +144,14 @@ export function ProjectForm({
 
   async function handleSubmit(event) {
     event.preventDefault();
-
-    // Saving mid-upload would store a project with no image and lose the file
-    // the admin just chose. Better to make them wait the second it takes.
     if (uploadBusy) return;
 
     const nextErrors = validate(values);
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
       const first = Object.keys(nextErrors)[0];
-      document.getElementById(fieldId(first))?.focus();
+      const focusKey = first === 'technologies' ? 'technologiesText' : first;
+      document.getElementById(fieldId(focusKey))?.focus();
       return;
     }
 
@@ -131,13 +160,13 @@ export function ProjectForm({
       image: values.image.trim(),
       imagePublicId: values.imagePublicId,
       link: values.link.trim(),
+      codeLink: values.codeLink.trim(),
+      technologies: parseTechnologies(values.technologiesText),
       description: values.description.trim(),
     };
 
     const succeeded = await onSubmit(payload);
     if (succeeded && !isEditing) {
-      // Clear the form after a successful add so several projects can be
-      // entered in a row without manually emptying every field.
       setValues(EMPTY);
       setErrors({});
       setFormKey((key) => key + 1);
@@ -186,8 +215,66 @@ export function ProjectForm({
         </div>
 
         <div className="field">
+          <label className="field__label" htmlFor={fieldId('technologiesText')}>
+            Technologies
+            <span className="field__optional">Comma-separated</span>
+          </label>
+          <input
+            id={fieldId('technologiesText')}
+            className={`input ${errors.technologies ? 'input--invalid' : ''}`.trim()}
+            value={values.technologiesText}
+            onChange={update('technologiesText', 'technologies')}
+            placeholder="React, Node.js, PostgreSQL, Tailwind CSS"
+            disabled={formDisabled}
+            aria-invalid={errors.technologies ? 'true' : undefined}
+            aria-describedby={errors.technologies ? errorId('technologies') : undefined}
+          />
+          {previewTags.length > 0 && (
+            <div className="project-form__tag-preview" aria-label="Technology tags preview">
+              {previewTags.map((tag) => (
+                <span key={tag} className="project-form__tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+          {errors.technologies && (
+            <p className="field__error" id={errorId('technologies')}>
+              <Icon name="alert" size={13} />
+              {errors.technologies}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className="form-grid form-grid--two">
+        <div className="field">
+          <label className="field__label" htmlFor={fieldId('codeLink')}>
+            Code URL (GitHub)
+            <span className="field__optional">Optional</span>
+          </label>
+          <input
+            id={fieldId('codeLink')}
+            className={`input ${errors.codeLink ? 'input--invalid' : ''}`.trim()}
+            value={values.codeLink}
+            onChange={update('codeLink')}
+            placeholder="https://github.com/Tolawak6/project"
+            inputMode="url"
+            disabled={formDisabled}
+            aria-invalid={errors.codeLink ? 'true' : undefined}
+            aria-describedby={errors.codeLink ? errorId('codeLink') : undefined}
+          />
+          {errors.codeLink && (
+            <p className="field__error" id={errorId('codeLink')}>
+              <Icon name="alert" size={13} />
+              {errors.codeLink}
+            </p>
+          )}
+        </div>
+
+        <div className="field">
           <label className="field__label" htmlFor={fieldId('link')}>
-            Project URL
+            Live Demo URL
             <span className="field__optional">Optional</span>
           </label>
           <input
@@ -195,7 +282,7 @@ export function ProjectForm({
             className={`input ${errors.link ? 'input--invalid' : ''}`.trim()}
             value={values.link}
             onChange={update('link')}
-            placeholder="https://github.com/you/project"
+            placeholder="https://your-project.vercel.app"
             inputMode="url"
             disabled={formDisabled}
             aria-invalid={errors.link ? 'true' : undefined}

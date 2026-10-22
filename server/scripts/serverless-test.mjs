@@ -95,6 +95,13 @@ check(
   Array.isArray(projects.body?.data),
   `got ${JSON.stringify(projects.body).slice(0, 120)}`,
 );
+check(
+  'project rows expose technologies[] and codeLink',
+  projects.body?.data?.length === 0 ||
+    (Array.isArray(projects.body?.data?.[0]?.technologies) &&
+      typeof projects.body?.data?.[0]?.codeLink === 'string'),
+  `got ${JSON.stringify(projects.body?.data?.[0]).slice(0, 160)}`,
+);
 
 const health = await get('/api/health');
 check('GET /api/health -> 200', health.status === 200, `got ${health.status}`);

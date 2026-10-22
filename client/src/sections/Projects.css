@@ -1,29 +1,27 @@
+/* =============================================================
+   Projects Grid — 3-Column Scannable Showcase (image-2.png)
+   ============================================================= */
+
 .projects__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(1.25rem, 1rem + 1.4vw, 1.85rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  gap: var(--space-6);
+  align-items: stretch;
 }
 
-.projects__grid > li {
-  display: flex;
-  min-width: 0;
-}
-
-.projects__grid > li > * {
-  width: 100%;
-}
-
-@media (min-width: 640px) {
+@media (min-width: 680px) {
   .projects__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1060px) {
+@media (min-width: 1020px) {
   .projects__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+
+.projects__grid > li {
+  display: flex;
+  min-width: 0;
 }

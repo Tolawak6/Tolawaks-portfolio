@@ -6,6 +6,16 @@
 import * as projectService from '../services/project.service.js';
 import * as storage from '../services/storage.service.js';
 import { validateProjectPayload } from '../validators/project.validator.js';
+import { writeProjectsSnapshot } from '../utils/projectSnapshot.js';
+
+async function syncSnapshot() {
+  try {
+    const all = await projectService.findAll();
+    await writeProjectsSnapshot(all);
+  } catch {
+    // Non-critical convenience mirror.
+  }
+}
 
 /**
  * Deletes a stored image once nothing references it any more.
@@ -65,6 +75,7 @@ export async function createProject(req, res) {
   }
 
   const project = await projectService.create(value);
+  await syncSnapshot();
   return res.status(201).json({ data: project });
 }
 
@@ -96,6 +107,7 @@ export async function updateProject(req, res) {
     await releaseAsset(previous.imagePublicId, { excludeId: project.id });
   }
 
+  await syncSnapshot();
   return res.status(200).json({ data: project });
 }
 
@@ -117,6 +129,7 @@ export async function deleteProject(req, res) {
   // The row is gone, so any remaining reference means another project shares
   // this image - in which case it stays.
   await releaseAsset(previous.imagePublicId);
+  await syncSnapshot();
 
   return res.status(204).send();
 }

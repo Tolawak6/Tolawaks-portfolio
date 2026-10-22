@@ -1,11 +1,11 @@
 import './ui.css';
 
 /**
- * Editorial Swiss section header: optional tabular index ("01".."06"),
- * gold eyebrow, expressive display title, intro copy, and an architectural
- * divider rule with a gold leading bar.
+ * Clean, scannable section header inspired by technical-editorial layouts:
+ * optional mono command/eyebrow, optional leading title icon, crisp display
+ * title, Solar Gold underline bar, and concise optional intro line.
  */
-export function SectionHeading({ index, eyebrow, title, intro, id, align = 'start' }) {
+export function SectionHeading({ eyebrow, icon, title, intro, id, align = 'start' }) {
   const isCentered = align === 'center';
 
   return (
@@ -13,29 +13,28 @@ export function SectionHeading({ index, eyebrow, title, intro, id, align = 'star
       className={`section-heading ${isCentered ? 'section-heading--center' : ''}`.trim()}
       data-reveal=""
     >
-      <div className="section-heading__meta">
-        {index && (
-          <span className="section-heading__index" aria-hidden="true">
-            {index}
+      {eyebrow && (
+        <p className="section-heading__prompt">
+          <span className="section-heading__prompt-prefix" aria-hidden="true">
+            $
+          </span>
+          <span>{eyebrow}</span>
+          <span className="section-heading__cursor" aria-hidden="true" />
+        </p>
+      )}
+
+      <h2 className="section-heading__title" id={id}>
+        {icon && (
+          <span className="section-heading__icon" aria-hidden="true">
+            {icon}
           </span>
         )}
-        {eyebrow && (
-          <p className="eyebrow" style={isCentered ? { justifyContent: 'center' } : undefined}>
-            {eyebrow}
-          </p>
-        )}
-      </div>
+        <span>{title}</span>
+      </h2>
 
-      <div className="section-heading__main">
-        <h2 className="section-heading__title" id={id}>
-          {title}
-        </h2>
-        {intro && <p className="section-heading__intro">{intro}</p>}
-      </div>
+      <div className="section-heading__bar" aria-hidden="true" />
 
-      <div className="section-heading__rule" aria-hidden="true">
-        <span className="section-heading__rule-accent" />
-      </div>
+      {intro && <p className="section-heading__intro">{intro}</p>}
     </div>
   );
 }

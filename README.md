@@ -1,10 +1,13 @@
-# Tolawak Merga — Full-Stack Developer Portfolio
+# Tolawak M. Abetu — Full-Stack Developer Portfolio
 
-A personal portfolio site built as a genuine full-stack application: a **React + Vite** frontend,
-an **Express** REST API, and **PostgreSQL** as the source of truth for project content.
+A personal portfolio site built as a genuine full-stack application: a **React + Vite** frontend
+with **Dark & Light mode** (`#000000` + `#FDBF2D`), an **Express** REST API, and **PostgreSQL** as
+the source of truth for project content (including technology tags, source `Code` links, `Live`
+demo links, and device image uploads).
 
 Projects are not hardcoded anywhere in the React source. They live in PostgreSQL, are managed
-through a `/admin` dashboard, and reach the page through the API.
+through a `/admin` dashboard, and reach the page through the API. To swap the downloadable CV,
+replace `client/public/cv/Tolawak_Merga_Abetu_CV.pdf` (or run `python3 scripts/generate-cv.py`).
 
 ---
 

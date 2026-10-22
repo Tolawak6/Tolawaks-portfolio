@@ -19,7 +19,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--c-ivory-90);
+  color: var(--text-sub);
 }
 
 .field__optional {
@@ -55,12 +55,12 @@
 .textarea,
 .select {
   width: 100%;
-  padding: 0.78rem 0.95rem;
-  min-height: 48px;
+  padding: 0.75rem 0.95rem;
+  min-height: 46px;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
   background: var(--surface-inset);
-  color: var(--c-ivory);
+  color: var(--text-heading);
   font-size: var(--text-base);
   line-height: 1.5;
   transition:
@@ -70,7 +70,7 @@
 }
 
 .textarea {
-  min-height: 140px;
+  min-height: 132px;
   resize: vertical;
   font-family: inherit;
 }
@@ -90,7 +90,7 @@
 .textarea:focus {
   outline: none;
   border-color: var(--c-gold);
-  background: #0a0a08;
+  background: var(--surface-input-focus);
   box-shadow: var(--ring-focus);
 }
 

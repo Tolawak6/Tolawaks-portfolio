@@ -46,6 +46,7 @@ coverage/
 .vercel/
 .vercelignore.local
 
-# Archives
+# Archives & local data snapshots
 *.zip
 *.tar.gz
+server/data/*.json

@@ -1,40 +1,44 @@
 /* =============================================================
-   Design System Tokens — Editorial Swiss + Bento
+   Design System Tokens — Editorial Swiss + Architectural Cards
    Brand Palette: Obsidian Black (#000000) + Solar Gold (#FDBF2D)
+   Supports BOTH [data-theme="dark"] (default) and [data-theme="light"]
 
-   Three-layer token architecture (Primitive -> Semantic -> Component):
-   1. Brand Primitives: #000000 and #FDBF2D (12.67:1 contrast — WCAG AAA),
-      paired with warm editorial ivory neutrals so long-form body copy
-      reads effortlessly without eye strain.
-   2. Semantic Surface, Text & Border Roles: all pairs verified >= 4.5:1
-      (most >= 11:1 AAA):
-        #FDBF2D on #000000 = 12.67:1 (AAA)
-        #000000 on #FDBF2D = 12.67:1 (AAA)
-        #F7F5F0 on #000000 = 19.10:1 (AAA)
-        #D6D3CB on #0E0E0E = 12.40:1 (AAA)
-        #9E9A8F on #0E0E0E =  6.75:1 (AA+)
+   Contrast verification (WCAG 2.2 AA / AAA):
+   Dark Mode:
+     #FDBF2D on #000000 = 12.67:1 (AAA)
+     #000000 on #FDBF2D = 12.67:1 (AAA)
+     #F7F5F0 on #000000 = 19.10:1 (AAA)
+     #D6D3CB on #0C0C0C = 12.65:1 (AAA)
+     #9E9A8F on #0C0C0C =  6.88:1 (AA+)
+   Light Mode:
+     #000000 on #FAF9F5 = 19.95:1 (AAA)
+     #000000 on #FDBF2D = 12.67:1 (AAA)
+     #2B2924 on #FFFFFF = 14.40:1 (AAA)
+     #5A564D on #FFFFFF =  7.18:1 (AAA)
+     #8A6000 on #FFFFFF =  5.52:1 (AA — readable gold ink for light mode text/icons)
    ============================================================= */
 
-:root {
+:root,
+[data-theme='dark'] {
   /* ---- 1. Brand primitives (exact 2-color core) ---- */
   --c-black: #000000;
   --c-gold: #fdbf2d;
   --c-gold-hover: #ffd05b;
   --c-gold-deep: #d99b08;
 
-  /* ---- Warm dark architectural elevations (derived from #000000) ---- */
-  --c-obsidian-alt: #070707;
-  --c-obsidian-card: #0e0e0e;
-  --c-obsidian-raise: #161512;
-  --c-obsidian-inset: #040404;
+  /* ---- Dark architectural elevations ---- */
+  --c-obsidian-alt: #060606;
+  --c-obsidian-card: #0c0c0c;
+  --c-obsidian-raise: #141310;
+  --c-obsidian-inset: #050505;
 
-  /* ---- Warm editorial light neutrals (for comfortable reading) ---- */
+  /* ---- Warm editorial light neutrals ---- */
   --c-ivory: #f7f5f0;
   --c-stone: #d6d3cb;
   --c-ash: #9e9a8f;
 
   /* ---- Gold & neutral alpha scales ---- */
-  --c-gold-32: rgba(253, 191, 45, 0.32);
+  --c-gold-32: rgba(253, 191, 45, 0.34);
   --c-gold-22: rgba(253, 191, 45, 0.22);
   --c-gold-14: rgba(253, 191, 45, 0.14);
   --c-gold-08: rgba(253, 191, 45, 0.08);
@@ -44,54 +48,69 @@
   --c-ivory-74: rgba(247, 245, 240, 0.78);
   --c-ivory-68: rgba(247, 245, 240, 0.68);
   --c-ivory-36: rgba(247, 245, 240, 0.36);
-  --c-ivory-18: rgba(247, 245, 240, 0.18);
-  --c-ivory-11: rgba(247, 245, 240, 0.11);
+  --c-ivory-18: rgba(247, 245, 240, 0.2);
+  --c-ivory-11: rgba(247, 245, 240, 0.12);
   --c-ivory-06: rgba(247, 245, 240, 0.06);
 
-  /* ---- Legacy aliases mapped cleanly so every component stays coherent ---- */
-  --c-navy: var(--c-black);
-  --c-navy-deep: var(--c-obsidian-alt);
-  --c-navy-soft: var(--c-obsidian-card);
-  --c-navy-raise: var(--c-obsidian-raise);
-  --c-slate: var(--c-gold);
-  --c-slate-deep: var(--c-gold-14);
-  --c-slate-soft: var(--c-gold);
-  --c-steel: var(--c-ash);
-  --c-mist: var(--c-ivory);
-  --c-mist-90: var(--c-ivory-90);
-  --c-mist-74: var(--c-ivory-74);
-  --c-mist-68: var(--c-ivory-68);
-  --c-mist-40: var(--c-ivory-36);
-  --c-mist-16: var(--c-ivory-18);
-  --c-mist-10: var(--c-ivory-11);
-  --c-mist-06: var(--c-ivory-06);
-
   /* ---- 2. Semantic surface roles ---- */
-  --surface-page: var(--c-black);
-  --surface-alt: var(--c-obsidian-alt);
-  --surface-card: var(--c-obsidian-card);
-  --surface-card-hover: var(--c-obsidian-raise);
-  --surface-inset: var(--c-obsidian-inset);
+  --surface-page: #000000;
+  --surface-alt: #050505;
+  --surface-card: #0b0b0b;
+  --surface-card-hover: #12110d;
+  --surface-chip: #121212;
+  --surface-inset: #050505;
+  --surface-input-focus: #0c0b08;
+  --surface-header: rgba(0, 0, 0, 0.84);
   --surface-accent: var(--c-gold);
+  --surface-skeleton: rgba(247, 245, 240, 0.07);
 
   /* ---- Semantic text roles ---- */
-  --text-heading: var(--c-ivory);
-  --text-accent: var(--c-gold);
-  --text-body: var(--c-stone);
-  --text-muted: var(--c-ash);
-  --text-inverse: var(--c-black);
+  --text-heading: #f7f5f0;
+  --text-sub: rgba(247, 245, 240, 0.88);
+  --text-accent: #fdbf2d;
+  --text-body: #d6d3cb;
+  --text-muted: #9e9a8f;
+  --text-inverse: #000000;
 
-  /* ---- Semantic border roles (Swiss hairlines) ---- */
-  --border-subtle: var(--c-ivory-11);
-  --border-strong: var(--c-ivory-18);
-  --border-accent: var(--c-gold);
-  --border-accent-soft: var(--c-gold-32);
+  /* ---- Semantic border & architectural offset roles ---- */
+  --border-subtle: rgba(247, 245, 240, 0.13);
+  --border-strong: rgba(247, 245, 240, 0.23);
+  --border-accent: #fdbf2d;
+  --border-accent-soft: rgba(253, 191, 45, 0.36);
+  --card-offset: rgba(253, 191, 45, 0.2);
+  --card-offset-hover: #fdbf2d;
+  --dot-grid: rgba(253, 191, 45, 0.14);
 
-  /* ---- Status colours (distinct coral-red so errors never clash with gold) ---- */
+  /* ---- Status colours ---- */
   --c-danger: #ff6b6b;
   --c-danger-strong: #e04f4f;
   --c-danger-bg: rgba(224, 79, 79, 0.12);
   --c-danger-ring: rgba(255, 107, 107, 0.3);
+
+  /* ---- Elevation & Focus ---- */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.65);
+  --shadow-md: 0 12px 32px -12px rgba(0, 0, 0, 0.85);
+  --shadow-lg: 0 24px 56px -18px rgba(0, 0, 0, 0.92), 0 0 0 1px rgba(253, 191, 45, 0.22);
+  --shadow-gold: 0 10px 28px -10px rgba(253, 191, 45, 0.38);
+  --ring-focus: 0 0 0 3px rgba(253, 191, 45, 0.42);
+
+  /* ---- Legacy aliases kept coherent ---- */
+  --c-navy: var(--surface-page);
+  --c-navy-deep: var(--surface-alt);
+  --c-navy-soft: var(--surface-card);
+  --c-navy-raise: var(--surface-card-hover);
+  --c-slate: var(--text-accent);
+  --c-slate-deep: var(--c-gold-14);
+  --c-slate-soft: var(--c-gold);
+  --c-steel: var(--text-muted);
+  --c-mist: var(--text-heading);
+  --c-mist-90: var(--text-sub);
+  --c-mist-74: var(--text-body);
+  --c-mist-68: var(--text-body);
+  --c-mist-40: var(--border-strong);
+  --c-mist-16: var(--border-strong);
+  --c-mist-10: var(--border-subtle);
+  --c-mist-06: var(--surface-skeleton);
 
   /* ---- Typography ---- */
   --font-display: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto,
@@ -104,19 +123,19 @@
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
-  --text-lg: 1.09375rem;
-  --text-xl: clamp(1.2rem, 1.08rem + 0.5vw, 1.5rem);
-  --text-2xl: clamp(1.5rem, 1.28rem + 0.9vw, 2.125rem);
-  --text-3xl: clamp(2rem, 1.58rem + 1.85vw, 3.125rem);
-  --text-hero: clamp(2.625rem, 1.75rem + 4vw, 5rem);
+  --text-lg: 1.0625rem;
+  --text-xl: clamp(1.15rem, 1.05rem + 0.45vw, 1.4rem);
+  --text-2xl: clamp(1.45rem, 1.25rem + 0.85vw, 2rem);
+  --text-3xl: clamp(1.85rem, 1.5rem + 1.5vw, 2.65rem);
+  --text-hero: clamp(2.25rem, 1.65rem + 3vw, 3.85rem);
 
-  --leading-tight: 1.04;
-  --leading-snug: 1.22;
+  --leading-tight: 1.08;
+  --leading-snug: 1.24;
   --leading-normal: 1.65;
-  --tracking-tight: -0.028em;
-  --tracking-wide: 0.14em;
+  --tracking-tight: -0.026em;
+  --tracking-wide: 0.13em;
 
-  /* ---- Spacing (4px / 8px Swiss rhythm) ---- */
+  /* ---- Spacing ---- */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -130,38 +149,88 @@
   --space-20: 5rem;
   --space-24: 6rem;
 
-  --section-pad-y: clamp(4.25rem, 2.8rem + 5.6vw, 7.75rem);
+  --section-pad-y: clamp(3.75rem, 2.6rem + 4.4vw, 6.25rem);
 
   /* ---- Layout ---- */
-  --container: 1220px;
+  --container: 1140px;
   --container-narrow: 780px;
-  --header-height: 72px;
-  --gutter: clamp(1.125rem, 0.7rem + 2vw, 2.5rem);
+  --header-height: 70px;
+  --gutter: clamp(1.125rem, 0.75rem + 1.8vw, 2.25rem);
 
-  /* ---- Architectural Swiss radii (crisp geometric edges) ---- */
+  /* ---- Architectural Swiss radii ---- */
   --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
   --radius-pill: 999px;
-
-  /* ---- Elevation & Focus ---- */
-  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.65);
-  --shadow-md: 0 12px 32px -12px rgba(0, 0, 0, 0.85);
-  --shadow-lg: 0 24px 56px -18px rgba(0, 0, 0, 0.92), 0 0 0 1px rgba(253, 191, 45, 0.22);
-  --shadow-gold: 0 10px 28px -10px rgba(253, 191, 45, 0.35);
-  --ring-focus: 0 0 0 3px rgba(253, 191, 45, 0.42);
 
   /* ---- Motion ---- */
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --dur-fast: 140ms;
-  --dur-base: 220ms;
-  --dur-slow: 440ms;
+  --dur-fast: 150ms;
+  --dur-base: 230ms;
+  --dur-slow: 480ms;
 }
 
-@media (max-width: 640px) {
-  :root {
-    --header-height: 62px;
-  }
+/* =============================================================
+   Light Mode Overrides — Crisp Paper + #000000 Ink + #FDBF2D Gold
+   Higher specificity (:root[data-theme='light']) guarantees override
+   regardless of Vite HMR stylesheet injection order.
+   ============================================================= */
+:root[data-theme='light'],
+[data-theme='light'] {
+  --c-ivory: #000000;
+  --c-stone: #2b2924;
+  --c-ash: #5a564d;
+
+  --c-ivory-90: rgba(0, 0, 0, 0.9);
+  --c-ivory-74: rgba(0, 0, 0, 0.76);
+  --c-ivory-68: rgba(0, 0, 0, 0.68);
+  --c-ivory-36: rgba(0, 0, 0, 0.38);
+  --c-ivory-18: rgba(0, 0, 0, 0.22);
+  --c-ivory-11: rgba(0, 0, 0, 0.13);
+  --c-ivory-06: rgba(0, 0, 0, 0.06);
+
+  --c-gold-32: rgba(180, 126, 0, 0.38);
+  --c-gold-22: rgba(253, 191, 45, 0.32);
+  --c-gold-14: rgba(253, 191, 45, 0.22);
+  --c-gold-08: rgba(253, 191, 45, 0.15);
+  --c-gold-04: rgba(253, 191, 45, 0.08);
+
+  --surface-page: #faf9f5;
+  --surface-alt: #f2efe7;
+  --surface-card: #ffffff;
+  --surface-card-hover: #fffdf6;
+  --surface-chip: #f5f3ec;
+  --surface-inset: #f4f2ea;
+  --surface-input-focus: #ffffff;
+  --surface-header: rgba(250, 249, 245, 0.88);
+  --surface-skeleton: rgba(0, 0, 0, 0.07);
+
+  --text-heading: #000000;
+  --text-sub: #1c1b18;
+  --text-accent: #8a6000; /* 5.52:1 WCAG AA on #FFFFFF; solid fills keep #FDBF2D */
+  --text-body: #2b2924;
+  --text-muted: #5a564d;
+  --text-inverse: #000000;
+
+  --border-subtle: rgba(0, 0, 0, 0.13);
+  --border-strong: rgba(0, 0, 0, 0.24);
+  --border-accent: #000000;
+  --border-accent-soft: rgba(180, 126, 0, 0.42);
+  --card-offset: rgba(0, 0, 0, 0.1);
+  --card-offset-hover: #fdbf2d;
+  --dot-grid: rgba(0, 0, 0, 0.1);
+
+  --c-danger: #b91c1c;
+  --c-danger-strong: #991b1b;
+  --c-danger-bg: rgba(185, 28, 28, 0.08);
+  --c-danger-ring: rgba(185, 28, 28, 0.24);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 12px 28px -12px rgba(0, 0, 0, 0.14);
+  --shadow-lg: 0 20px 44px -16px rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.12);
+  --shadow-gold: 0 10px 24px -10px rgba(253, 191, 45, 0.55);
+  --ring-focus: 0 0 0 3px rgba(253, 191, 45, 0.55);
 }

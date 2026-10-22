@@ -1,213 +1,117 @@
-.contact__grid {
+/* =============================================================
+   Get in Touch — 3-Column Social & Contact Grid (image-4.png)
+   ============================================================= */
+
+.contact-cards {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(2.25rem, 1.4rem + 3vw, 3.75rem);
+  gap: var(--space-4);
 }
 
-@media (min-width: 940px) {
-  .contact__grid {
-    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-    gap: clamp(2.5rem, 1.2rem + 4vw, 4.25rem);
-    align-items: start;
+@media (min-width: 600px) {
+  .contact-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* ---------------- Details column ---------------- */
-.contact__details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+@media (min-width: 960px) {
+  .contact-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
-.contact__intro {
-  font-size: var(--text-lg);
-  color: var(--text-body);
-  max-width: 46ch;
-  margin-bottom: var(--space-2);
-}
-
-.contact__email {
+.contact-card {
+  height: 100%;
+  padding: 1.15rem 1.25rem;
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-md);
-  background: var(--surface-card);
-  color: var(--c-ivory);
-  transition:
-    border-color var(--dur-base) var(--ease-out),
-    background-color var(--dur-base) var(--ease-out),
-    transform var(--dur-fast) var(--ease-out),
-    box-shadow var(--dur-base) var(--ease-out);
-  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
-.contact__email:hover {
-  border-color: var(--c-gold);
-  background: var(--surface-card-hover);
-  transform: translateY(-2px);
+.contact-card--link {
+  cursor: pointer;
 }
 
-.contact__email-icon {
-  display: grid;
+.contact-card__icon {
+  display: inline-grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  flex: none;
-  border: 1px solid var(--border-accent-soft);
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-sm);
+  border: 1px solid var(--border-accent-soft);
   background: var(--c-gold-08);
-  color: var(--c-gold);
+  color: var(--text-accent);
+  flex: none;
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
 }
 
-/* Featured Solar Gold primary card (#FDBF2D background + #000000 ink, 12.67:1 AAA) */
-.contact__email--featured {
+.contact-card--link:hover .contact-card__icon {
   background: var(--c-gold);
   border-color: var(--c-gold);
   color: var(--c-black);
 }
 
-.contact__email--featured .contact__email-icon {
-  background: var(--c-black);
-  border-color: var(--c-black);
-  color: var(--c-gold);
-}
-
-.contact__email--featured .contact__email-label {
-  color: rgba(0, 0, 0, 0.78);
-}
-
-.contact__email--featured:hover {
-  background: var(--c-gold-hover);
-  border-color: var(--c-gold-hover);
-  color: var(--c-black);
-  box-shadow: var(--shadow-gold);
-}
-
-.contact__email--featured:focus-visible {
-  outline-color: var(--c-ivory);
-}
-
-.contact__email-body {
-  display: flex;
-  flex-direction: column;
+.contact-card__copy {
   flex: 1;
   min-width: 0;
-}
-
-.contact__email-label {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.contact__email-value {
-  font-family: var(--font-display);
-  font-size: var(--text-base);
-  font-weight: 700;
-  margin-top: 2px;
-}
-
-.contact__links {
-  display: grid;
-  gap: var(--space-3);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.contact__link {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-3) var(--space-4);
-  min-height: 62px;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background: var(--surface-card);
-  color: var(--c-ivory-90);
-  transition:
-    border-color var(--dur-base) var(--ease-out),
-    background-color var(--dur-base) var(--ease-out),
-    transform var(--dur-fast) var(--ease-out);
-}
-
-a.contact__link:hover {
-  border-color: var(--c-gold);
-  background: var(--surface-card-hover);
-  transform: translateY(-1px);
-}
-
-a.contact__link:hover svg {
-  color: var(--c-gold);
-}
-
-.contact__link--pending {
-  border-style: dashed;
-  background: rgba(255, 255, 255, 0.015);
-  cursor: default;
-}
-
-.contact__link-icon {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  flex: none;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  background: var(--surface-inset);
-  color: var(--c-gold);
-}
-
-.contact__link-text {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  flex: 1;
-  min-width: 0;
 }
 
-.contact__link-label {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  color: var(--c-ivory);
-}
-
-.contact__link-value {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
+.contact-card__label {
   color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.contact-card__value {
+  color: var(--text-heading);
+  font-family: var(--font-display);
+  font-size: 0.96rem;
+  font-weight: 700;
+  line-height: 1.3;
   overflow-wrap: anywhere;
 }
 
-/* ---------------- Form column ---------------- */
-.contact__form-wrap {
-  min-width: 0;
-}
-
-.contact__note {
-  margin-top: var(--space-4);
-  font-size: var(--text-sm);
+.contact-card__arrow {
   color: var(--text-muted);
+  flex: none;
+  opacity: 0.7;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
 }
 
-.contact__note a {
-  color: var(--c-gold);
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.contact-card--link:hover .contact-card__arrow {
+  color: var(--text-accent);
+  opacity: 1;
+  transform: translate(2px, -2px);
 }
 
-.contact__note a:hover {
-  color: var(--c-gold-hover);
+/* ---- Footer Prompt + Expandable Direct Form ---- */
+.contact-footer {
+  margin-top: var(--space-8);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.contact-footer__note {
+  color: var(--text-muted);
+  font-size: var(--text-base);
+}
+
+.contact-drawer {
+  margin-top: var(--space-6);
+  max-width: 680px;
+  animation: fade-up 280ms var(--ease-spring) both;
 }

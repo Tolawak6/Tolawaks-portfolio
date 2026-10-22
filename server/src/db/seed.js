@@ -11,28 +11,35 @@
 import { pool, closePool } from './pool.js';
 import { config } from '../config/index.js';
 import { count, create } from '../services/project.service.js';
+import { readProjectsSnapshot } from '../utils/projectSnapshot.js';
 
 const SAMPLE_PROJECTS = [
   {
     name: 'Sample Project - Task Tracker',
     image: '/images/projects/placeholder-taskboard.svg',
-    link: 'https://github.com/your-username/task-tracker',
+    link: 'https://github.com/Tolawak6',
+    codeLink: 'https://github.com/Tolawak6',
+    technologies: ['React', 'Express.js', 'PostgreSQL', 'Tailwind CSS', 'REST API'],
     description:
-      'Placeholder entry. A small task board built with React and an Express REST API. Replace or delete this row from the admin dashboard.',
+      'Placeholder entry. A full-stack task board built with React and an Express REST API. Replace or delete this row from /admin.',
   },
   {
     name: 'Sample Project - Store API',
     image: '/images/projects/placeholder-api.svg',
-    link: 'https://github.com/your-username/store-api',
+    link: 'https://github.com/Tolawak6',
+    codeLink: 'https://github.com/Tolawak6',
+    technologies: ['Node.js', 'Express.js', 'PostgreSQL', 'JSON'],
     description:
-      'Placeholder entry. A REST API with authentication and PostgreSQL persistence. Replace or delete this row from the admin dashboard.',
+      'Placeholder entry. A REST API with authentication and PostgreSQL persistence. Replace or delete this row from /admin.',
   },
   {
     name: 'Sample Project - Data Dashboard',
     image: '/images/projects/placeholder-dashboard.svg',
     link: '',
+    codeLink: 'https://github.com/Tolawak6',
+    technologies: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'Data Analysis'],
     description:
-      'Placeholder entry that has no live link, so you can see how a card renders with a missing URL. Replace or delete this row.',
+      'Placeholder entry showing how a project card renders with source code and technologies before a live link is added.',
   },
 ];
 
@@ -51,12 +58,20 @@ async function main() {
     }
   }
 
-  for (const project of SAMPLE_PROJECTS) {
+  const snapshotRows = !force ? await readProjectsSnapshot() : null;
+  const rowsToInsert =
+    Array.isArray(snapshotRows) && snapshotRows.length > 0 ? snapshotRows : SAMPLE_PROJECTS;
+
+  if (rowsToInsert === snapshotRows) {
+    console.log(`[seed] restoring ${snapshotRows.length} saved project(s) from server/data/projects-snapshot.json`);
+  }
+
+  for (const project of rowsToInsert) {
     const created = await create(project);
     console.log(`[seed] inserted #${created.id} ${created.name}`);
   }
 
-  console.log(`[seed] done - ${SAMPLE_PROJECTS.length} sample project(s) inserted.`);
+  console.log(`[seed] done - ${rowsToInsert.length} project(s) inserted.`);
   console.log(`[seed] target database: ${redact(config.db.connectionString)}`);
 }
 

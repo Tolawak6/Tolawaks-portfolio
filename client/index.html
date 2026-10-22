@@ -1,37 +1,50 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
 
+    <!-- Apply stored theme synchronously before first paint (zero flash). -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('portfolio-theme');
+          var theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#FAF9F5' : '#000000');
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- ============================================================
-         SEO - edit these three blocks to change how the site appears
+         SEO - edit these blocks to change how the site appears
          in search results and when shared on social media.
          ============================================================ -->
-    <title>Tolawak Merga - Full-Stack Web Developer</title>
+    <title>Tolawak M. Abetu - Full-Stack Web Developer</title>
     <meta
       name="description"
-      content="Portfolio of Tolawak Merga, a full-stack web developer and Computer Science graduate building web applications with React, Node.js, Express, PostgreSQL and Python."
+      content="Portfolio of Tolawak M. Abetu, a full-stack web developer and Computer Science graduate building web applications with React, Node.js, Express, PostgreSQL and Python."
     />
-    <meta name="author" content="Tolawak Merga" />
+    <meta name="author" content="Tolawak M. Abetu" />
     <link rel="canonical" href="https://example.com/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Tolawak Merga" />
-    <meta property="og:title" content="Tolawak Merga - Full-Stack Web Developer" />
+    <meta property="og:site_name" content="Tolawak M. Abetu" />
+    <meta property="og:title" content="Tolawak M. Abetu - Full-Stack Web Developer" />
     <meta
       property="og:description"
       content="Full-stack web developer and Computer Science graduate building web applications with React, Node.js, Express, PostgreSQL and Python."
     />
     <meta property="og:url" content="https://example.com/" />
     <meta property="og:image" content="/images/og-image.svg" />
-    <meta property="og:image:alt" content="Tolawak Merga - Full-Stack Web Developer" />
+    <meta property="og:image:alt" content="Tolawak M. Abetu - Full-Stack Web Developer" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Tolawak Merga - Full-Stack Web Developer" />
+    <meta name="twitter:title" content="Tolawak M. Abetu - Full-Stack Web Developer" />
     <meta
       name="twitter:description"
       content="Full-stack web developer and Computer Science graduate building web applications with React, Node.js, Express, PostgreSQL and Python."
@@ -52,14 +65,20 @@
       {
         "@context": "https://schema.org",
         "@type": "Person",
-        "name": "Tolawak Merga",
+        "name": "Tolawak M. Abetu",
         "jobTitle": "Full-Stack Web Developer",
         "givenName": "Tolawak",
-        "familyName": "Merga Abetu",
+        "additionalName": "Merga",
+        "familyName": "Abetu",
         "address": { "@type": "PostalAddress", "addressLocality": "Addis Ababa", "addressCountry": "ET" },
         "alumniOf": { "@type": "CollegeOrUniversity", "name": "Haramaya University" },
-        "sameAs": ["https://github.com/Tolawak6"],
+        "sameAs": [
+          "https://github.com/Tolawak6",
+          "https://www.linkedin.com/in/tolawak-merga",
+          "https://www.instagram.com/t_o_l_a_w_a_k"
+        ],
         "email": "mailto:tolawak6@gmail.com",
+        "telephone": "+251909689044",
         "knowsAbout": [
           "Web Development",
           "React",
@@ -82,7 +101,7 @@
     <div id="root"></div>
     <noscript>
       <div style="padding: 2rem; font-family: system-ui, sans-serif; background: #000000; color: #F7F5F0; border-top: 4px solid #FDBF2D">
-        <h1 style="color: #FDBF2D">Tolawak Merga - Full-Stack Web Developer</h1>
+        <h1 style="color: #FDBF2D">Tolawak M. Abetu - Full-Stack Web Developer</h1>
         <p>
           This portfolio needs JavaScript enabled. You can still reach me at
           <a href="mailto:tolawak6@gmail.com" style="color: #FDBF2D">tolawak6@gmail.com</a>.

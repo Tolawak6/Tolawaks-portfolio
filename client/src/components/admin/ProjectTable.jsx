@@ -30,10 +30,6 @@ function Thumb({ project }) {
 
 /**
  * The list of existing projects with edit and delete actions.
- *
- * Deletion uses an inline confirmation rather than window.confirm: it keeps the
- * interaction keyboard accessible, stays inside the page's focus order, and
- * cannot be dismissed accidentally by Enter on the wrong button.
  */
 export function ProjectTable({ projects, onEdit, onDelete, deletingId, editingId }) {
   const [confirmingId, setConfirmingId] = useState(null);
@@ -62,7 +58,7 @@ export function ProjectTable({ projects, onEdit, onDelete, deletingId, editingId
         <thead>
           <tr>
             <th scope="col">Project</th>
-            <th scope="col">Link</th>
+            <th scope="col">Links</th>
             <th scope="col" className="admin-table__hide-sm">Added</th>
             <th scope="col" className="admin-table__hide-sm">Updated</th>
             <th scope="col">
@@ -75,6 +71,7 @@ export function ProjectTable({ projects, onEdit, onDelete, deletingId, editingId
             const isConfirming = confirmingId === project.id;
             const isDeleting = deletingId === project.id;
             const isEditing = editingId === project.id;
+            const tags = Array.isArray(project.technologies) ? project.technologies : [];
 
             return (
               <tr key={project.id} className={isEditing ? 'is-editing' : ''}>
@@ -83,25 +80,42 @@ export function ProjectTable({ projects, onEdit, onDelete, deletingId, editingId
                     <Thumb project={project} />
                     <div className="admin-table__project-text">
                       <span className="admin-table__name">{project.name}</span>
-                      <span className="admin-table__id">ID {project.id}</span>
+                      <span className="admin-table__id">
+                        ID {project.id}
+                        {tags.length > 0 ? ` · ${tags.slice(0, 3).join(', ')}${tags.length > 3 ? ` +${tags.length - 3}` : ''}` : ''}
+                      </span>
                     </div>
                   </div>
                 </th>
 
-                <td data-label="Link">
-                  {project.link ? (
-                    <a
-                      className="admin-table__link"
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Icon name="externalLink" size={14} />
-                      <span className="admin-table__link-text">{project.link}</span>
-                    </a>
-                  ) : (
-                    <span className="admin-table__muted">Not set</span>
-                  )}
+                <td data-label="Links">
+                  <div className="admin-table__links">
+                    {project.codeLink && (
+                      <a
+                        className="admin-table__link"
+                        href={project.codeLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Icon name="github" size={14} />
+                        <span className="admin-table__link-text">Code</span>
+                      </a>
+                    )}
+                    {project.link && (
+                      <a
+                        className="admin-table__link"
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Icon name="externalLink" size={14} />
+                        <span className="admin-table__link-text">Live</span>
+                      </a>
+                    )}
+                    {!project.codeLink && !project.link && (
+                      <span className="admin-table__muted">Not set</span>
+                    )}
+                  </div>
                 </td>
 
                 <td data-label="Added" className="admin-table__hide-sm">
