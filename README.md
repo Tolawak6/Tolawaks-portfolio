@@ -107,37 +107,24 @@ maintains `updated_at`.
 
 ### Colour palette
 
-Four colours, defined once in `client/src/styles/tokens.css` and referenced
-everywhere else by name. Change them in that one file.
+A two-colour Editorial Swiss palette (**Obsidian Black `#000000` + Solar Gold `#FDBF2D`**)
+paired with warm neutral reading text, defined once in `client/src/styles/tokens.css`
+and referenced everywhere else through semantic surface, text and border tokens:
 
-| Token | Hex | Role |
-| --- | --- | --- |
-| `--c-navy` | `#27374D` | Header, hero, page background |
-| `--c-slate` | `#526D82` | Borders, accents, icon tiles, accent fills |
-| `--c-steel` | `#9DB2BF` | Muted/secondary text, dividers |
-| `--c-mist` | `#DDE6ED` | Headings, primary text, light UI |
-
-One accessibility constraint shaped how these are used, and it is worth knowing
-before you edit them: **`#526D82` and `#DDE6ED` are only 4.30:1 apart.** That
-passes WCAG AA for large text (3:1) but *fails* it for body copy (4.5:1). Slate
-is therefore used structurally — borders, dividers, accent fills — and never as
-a surface carrying normal-sized body text.
-
-To give cards and sections readable surfaces, three shades were derived from the
-same hue family:
-
-| Token | Hex | Mist text on it | Use |
+| Token | Hex | Contrast | Role |
 | --- | --- | --- | --- |
-| `--c-navy-deep` | `#1F2C3D` | 11.18:1 | Alternating section backgrounds |
-| `--c-navy-soft` | `#2F4257` | 8.15:1 | Card surfaces |
-| `--c-slate-deep` | `#46617A` | 5.11:1 | Accent buttons and badge fills |
+| `--c-black` | `#000000` | — | Header, hero, primary page background |
+| `--c-gold` | `#FDBF2D` | `12.67:1` vs `#000000` (AAA) | Primary CTAs, Swiss indices, active markers, gold bands |
+| `--c-ivory` | `#F7F5F0` | `19.10:1` vs `#000000` (AAA) | Display headings and primary foreground |
+| `--c-stone` | `#D6D3CB` | `12.40:1` vs `#0E0E0E` (AAA) | Comfortable long-form body copy |
+| `--c-ash` | `#9E9A8F` | `6.75:1` vs `#0E0E0E` (AA+) | Muted metadata and captions |
 
-The body text tint was also lifted to `rgba(221, 230, 237, 0.68)` (5.16:1) rather
-than the more obvious 0.58, which measured 4.35:1 and failed. A muted warm
-`#E09480` marks errors so a failure state can never be mistaken for normal UI.
+Elevated dark surfaces (`#070707` alternating sections, `#0E0E0E` Bento and case cards)
+separate structural layers without relying on heavy drop shadows, while `#FF6B6B` marks
+validation and server errors so failure states remain unmistakably distinct from brand gold.
 
-Every text/background pair on the site was verified against WCAG AA
-programmatically — see [Verified behaviour](#verified-behaviour).
+Every text/background pair on the site exceeds WCAG AA (`4.5:1`), with primary and
+accent pairs meeting WCAG AAA (`7:1`).
 
 ---
 
@@ -662,10 +649,10 @@ python scripts/prepare-portrait.py
 3. Saves an optimised progressive JPEG, ~141 KB.
 
 **It does not remove the background, and that is deliberate.** A studio photo
-already has a usable background, and cutting a subject out risks the halos and
-fringing that background removal introduces. It happens that the current
-portrait's backdrop is already a gradient from `#506b7e` to `#9db3c0` — within a
-hair of the site's `#526D82` and `#9DB2BF` — so it sits in the palette naturally.
+already has a clean backdrop, and cutting a subject out risks the halos and
+fringing that background removal introduces. Framing the studio portrait inside
+an architectural `#0E0E0E` / `#FDBF2D` bezel keeps the photograph crisp and
+natural against the `#000000` hero canvas.
 
 If you do need the background removed for a different photo, note that the
 segmentation approach downloads a **~176 MB** model file into `~/.rembg/`, which

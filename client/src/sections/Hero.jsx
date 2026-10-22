@@ -3,34 +3,62 @@ import { Button } from '../components/ui/Button.jsx';
 import { Icon } from '../components/ui/Icon.jsx';
 import './Hero.css';
 
+const HERO_PILLARS = [
+  { code: '01', label: 'Frontend', detail: 'React · Vite · Tailwind CSS' },
+  { code: '02', label: 'Backend', detail: 'Node.js · Express · Django · FastAPI' },
+  { code: '03', label: 'Databases', detail: 'PostgreSQL · MySQL · MongoDB' },
+  { code: '04', label: 'Python & AI', detail: 'Machine Learning · Data Analysis' },
+];
+
 /**
- * Hero: name, title, short introduction and the professional photo, with the
- * text on one side and the photo on the other on desktop. Everything stacks
- * naturally on mobile.
+ * Editorial Swiss Hero (#000000 + #FDBF2D):
+ * - Oversized split display typography with Solar Gold accent.
+ * - Authentic framed portrait with architectural corner brackets & spec plate.
+ * - Full-bleed #FDBF2D gold specification band at the base (12.67:1 AAA).
  */
 export function Hero() {
   const { photo } = profile;
+  const nameParts = profile.name.trim().split(/\s+/);
+  const firstName = nameParts[0] || profile.name;
+  const restName = nameParts.slice(1).join(' ');
 
   return (
     <section className="hero" id="home" aria-labelledby="hero-heading">
       <div className="container hero__inner">
         <div className="hero__content">
-          {profile.availability && (
-            <p className="hero__badge">
-              <span className="hero__badge-dot" aria-hidden="true" />
-              {profile.availability}
-            </p>
-          )}
+          <div className="hero__top-meta">
+            <span className="hero__index" aria-hidden="true">
+              00 // PORTFOLIO
+            </span>
+            {profile.availability && (
+              <p className="hero__badge">
+                <span className="hero__badge-dot" aria-hidden="true" />
+                {profile.availability}
+              </p>
+            )}
+          </div>
 
           <h1 className="hero__name" id="hero-heading">
-            {profile.name}
+            <span className="hero__name-first">{firstName}</span>
+            {restName && (
+              <>
+                {' '}
+                <span className="hero__name-accent">
+                  {restName}
+                  <span className="hero__name-dot" aria-hidden="true">
+                    .
+                  </span>
+                </span>
+              </>
+            )}
           </h1>
 
-          <p className="hero__title">{profile.title}</p>
-
-          {/* The visible rule keeps the title and the summary visually separate
-              without adding another element that screen readers would announce. */}
-          <div className="hero__rule" aria-hidden="true" />
+          <div className="hero__role-bar">
+            <span className="hero__role-slash" aria-hidden="true">
+              //
+            </span>
+            <p className="hero__title">{profile.title}</p>
+          </div>
 
           <p className="hero__summary">{profile.heroSummary}</p>
 
@@ -52,32 +80,57 @@ export function Hero() {
           <ul className="hero__meta">
             <li>
               <Icon name="pin" size={15} />
-              {profile.location}
+              <span>{profile.location}</span>
             </li>
             <li>
               <Icon name="code" size={15} />
-              React · Node.js · Express · PostgreSQL · Python
+              <span>B.Sc. Computer Science · Haramaya University</span>
             </li>
           </ul>
         </div>
 
         <div className="hero__portrait-wrap">
-          {/* Decorative offset frame - purely visual, hidden from AT. */}
+          {/* Architectural offset frame in #FDBF2D */}
           <span className="hero__portrait-offset" aria-hidden="true" />
+          <span className="hero__portrait-corner" aria-hidden="true" />
 
           <figure className="hero__portrait">
-            <img
-              src={photo.src}
-              alt={photo.alt}
-              width={photo.width}
-              height={photo.height}
-              /* Above the fold: load eagerly and prioritise it. */
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              className="hero__portrait-img"
-            />
+            <div className="hero__portrait-media">
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.width}
+                height={photo.height}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                className="hero__portrait-img"
+              />
+            </div>
+            <figcaption className="hero__portrait-caption">
+              <span className="hero__portrait-tag">FIG. 01</span>
+              <span className="hero__portrait-caption-name">{profile.fullName}</span>
+            </figcaption>
           </figure>
+        </div>
+      </div>
+
+      {/* Signature full-bleed #FDBF2D Solar Gold architectural specification strip */}
+      <div className="hero__band" aria-label="Core technical capabilities">
+        <div className="container">
+          <ul className="hero__band-grid">
+            {HERO_PILLARS.map((pillar) => (
+              <li key={pillar.code} className="hero__band-item">
+                <span className="hero__band-code" aria-hidden="true">
+                  {pillar.code}
+                </span>
+                <div>
+                  <p className="hero__band-label">{pillar.label}</p>
+                  <p className="hero__band-detail">{pillar.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

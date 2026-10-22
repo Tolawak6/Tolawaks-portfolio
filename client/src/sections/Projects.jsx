@@ -10,15 +10,7 @@ import './Projects.css';
 const SKELETON_COUNT = 3;
 
 /**
- * Projects section.
- *
- * Reads everything from GET /api/projects. Four distinct states are handled so
- * the section never renders as a confusing empty gap:
- *
- *   loading  -> skeleton cards
- *   error    -> friendly message + retry (technical detail stays server-side)
- *   empty    -> professional "nothing published yet" message
- *   success  -> responsive grid of project cards
+ * 03 / Projects — Dynamic portfolio work fetched from GET /api/projects.
  */
 export function Projects() {
   const { projects, status, error, reload } = useProjects();
@@ -27,9 +19,14 @@ export function Projects() {
   return (
     <section className="section section--alt" id="projects" aria-labelledby="projects-heading">
       <div className="container">
-        <SectionHeading eyebrow={eyebrow} title={title} intro={intro} id="projects-heading" />
+        <SectionHeading
+          index="03"
+          eyebrow={eyebrow}
+          title={title}
+          intro={intro}
+          id="projects-heading"
+        />
 
-        {/* aria-live so screen readers learn when the list finishes loading. */}
         <div aria-live="polite" aria-busy={status === 'loading'}>
           {status === 'loading' && (
             <ul className="projects__grid">
@@ -67,7 +64,7 @@ export function Projects() {
           {status === 'success' && projects.length === 0 && (
             <div className="state-block" data-reveal="">
               <span className="state-block__icon">
-                <Icon name="layout" size={34} />
+                <Icon name="layout" size={30} />
               </span>
               <h3 className="state-block__title">Projects are on the way</h3>
               <p className="state-block__body">

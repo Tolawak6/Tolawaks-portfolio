@@ -1,41 +1,44 @@
 /* =============================================================
-   Shared UI primitives: buttons, tags, headings, alerts, badges
+   Shared UI primitives — Editorial Swiss (#000000 + #FDBF2D)
    ============================================================= */
 
 /* ---------------- Button ---------------- */
 .btn {
   --btn-bg: transparent;
-  --btn-fg: var(--c-mist);
-  --btn-border: var(--c-mist-16);
+  --btn-fg: var(--c-ivory);
+  --btn-border: var(--border-strong);
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 0.72rem 1.35rem;
-  min-height: 44px; /* comfortable touch target */
+  padding: 0.78rem 1.4rem;
+  min-height: 46px;
   border: 1px solid var(--btn-border);
   border-radius: var(--radius-sm);
   background: var(--btn-bg);
   color: var(--btn-fg);
+  font-family: var(--font-display);
   font-size: var(--text-sm);
-  font-weight: 600;
-  letter-spacing: 0.005em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   line-height: 1;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
+  touch-action: manipulation;
   transition:
     background-color var(--dur-base) var(--ease-out),
     border-color var(--dur-base) var(--ease-out),
     color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
     transform var(--dur-fast) var(--ease-out);
 }
 
 .btn:disabled,
 .btn[aria-disabled='true'] {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -48,75 +51,75 @@
   transform: translateY(0);
 }
 
-/* Primary: cream fill on dark. Highest contrast, one per view. */
+/* Primary: Signature Solar Gold (#FDBF2D) fill with #000000 ink (12.67:1 AAA). */
 .btn--primary {
-  --btn-bg: var(--c-mist);
-  --btn-fg: var(--c-navy);
-  --btn-border: var(--c-mist);
+  --btn-bg: var(--c-gold);
+  --btn-fg: var(--c-black);
+  --btn-border: var(--c-gold);
 }
 .btn--primary:not(:disabled):hover {
-  --btn-bg: var(--c-mist);
-  --btn-border: var(--c-mist);
+  --btn-bg: var(--c-gold-hover);
+  --btn-border: var(--c-gold-hover);
+  box-shadow: var(--shadow-gold);
 }
 
-/* Secondary: outlined, sits quietly next to the primary. */
+/* Secondary: Architectural crisp outline on #000000, highlights in #FDBF2D on hover. */
 .btn--secondary {
   --btn-bg: transparent;
-  --btn-fg: var(--c-mist);
-  --btn-border: var(--c-mist-40);
+  --btn-fg: var(--c-ivory);
+  --btn-border: var(--border-strong);
 }
 .btn--secondary:not(:disabled):hover {
-  --btn-bg: var(--c-slate);
-  --btn-border: var(--c-slate);
-  --btn-fg: var(--c-mist);
+  --btn-bg: var(--c-gold-08);
+  --btn-border: var(--c-gold);
+  --btn-fg: var(--c-gold);
 }
 
-/* Accent: slate fill, for in-section actions.
-   Uses the deeper slate so the mist label clears AA (5.11:1). Hover darkens
-   rather than lightens, which increases contrast instead of eating into it. */
+/* Accent: Gold-bordered surface button that flips to solid #FDBF2D on hover. */
 .btn--accent {
-  --btn-bg: var(--c-slate-deep);
-  --btn-fg: var(--c-mist);
-  --btn-border: var(--c-slate);
+  --btn-bg: var(--c-gold-14);
+  --btn-fg: var(--c-gold);
+  --btn-border: var(--border-accent-soft);
 }
 .btn--accent:not(:disabled):hover {
-  --btn-bg: #3d5570;
-  --btn-border: var(--c-steel);
+  --btn-bg: var(--c-gold);
+  --btn-border: var(--c-gold);
+  --btn-fg: var(--c-black);
 }
 
-/* Ghost: text-only, for tertiary actions. */
+/* Ghost: Clean tertiary action. */
 .btn--ghost {
   --btn-bg: transparent;
-  --btn-fg: var(--c-mist-74);
+  --btn-fg: var(--c-ivory-74);
   --btn-border: transparent;
   padding-inline: var(--space-3);
 }
 .btn--ghost:not(:disabled):hover {
-  --btn-fg: var(--c-mist);
-  --btn-bg: var(--c-mist-06);
+  --btn-fg: var(--c-gold);
+  --btn-bg: var(--c-gold-08);
 }
 
-/* Danger: destructive actions in the admin dashboard. */
+/* Danger: Distinct coral-red for destructive admin actions. */
 .btn--danger {
   --btn-bg: transparent;
   --btn-fg: var(--c-danger);
-  --btn-border: rgba(224, 148, 128, 0.42);
+  --btn-border: rgba(255, 107, 107, 0.42);
 }
 .btn--danger:not(:disabled):hover {
   --btn-bg: var(--c-danger-bg);
   --btn-border: var(--c-danger);
-  --btn-fg: #eaa892;
+  --btn-fg: #ff8787;
 }
 
 .btn--sm {
-  padding: 0.5rem 0.9rem;
+  padding: 0.52rem 0.95rem;
   min-height: 38px;
   font-size: var(--text-xs);
 }
 
 .btn--lg {
-  padding: 0.95rem 1.75rem;
-  min-height: 52px;
+  padding: 1rem 1.85rem;
+  min-height: 54px;
   font-size: var(--text-base);
 }
 
@@ -134,23 +137,104 @@
   flex: none;
 }
 
-/* ---------------- Section heading ---------------- */
+/* ---------------- Editorial Swiss Section Heading ---------------- */
 .section-heading {
-  max-width: 62ch;
-  margin-bottom: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-bottom: clamp(2.5rem, 1.8rem + 2.5vw, 4rem);
+}
+
+@media (min-width: 900px) {
+  .section-heading:not(.section-heading--center) {
+    grid-template-columns: minmax(170px, 0.26fr) minmax(0, 1fr);
+    column-gap: var(--space-8);
+    row-gap: var(--space-6);
+    align-items: start;
+  }
+}
+
+.section-heading--center {
+  max-width: 64ch;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.section-heading__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-1);
+}
+
+.section-heading--center .section-heading__meta {
+  justify-content: center;
+}
+
+.section-heading__index {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.35rem;
+  height: 1.75rem;
+  padding-inline: 0.5rem;
+  border: 1px solid var(--border-accent-soft);
+  border-radius: var(--radius-sm);
+  background: var(--c-gold-08);
+  color: var(--c-gold);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+.section-heading__main {
+  min-width: 0;
 }
 
 .section-heading__title {
-  margin-top: var(--space-4);
   font-size: var(--text-3xl);
-  max-width: 34ch;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  max-width: 26ch;
+}
+
+.section-heading--center .section-heading__title {
+  margin-inline: auto;
 }
 
 .section-heading__intro {
   margin-top: var(--space-4);
   font-size: var(--text-lg);
   color: var(--text-body);
-  max-width: 68ch;
+  max-width: 62ch;
+}
+
+.section-heading--center .section-heading__intro {
+  margin-inline: auto;
+}
+
+.section-heading__rule {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 1px;
+  margin-top: var(--space-2);
+  background: var(--border-subtle);
+}
+
+.section-heading__rule-accent {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 72px;
+  height: 2px;
+  background: var(--c-gold);
+}
+
+.section-heading--center .section-heading__rule-accent {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* ---------------- Tag ---------------- */
@@ -158,25 +242,27 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 0.4rem 0.7rem;
+  padding: 0.44rem 0.78rem;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  background: var(--c-mist-06);
-  color: var(--c-mist-90);
-  font-size: var(--text-sm);
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--c-ivory-90);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.2;
   transition:
     border-color var(--dur-base) var(--ease-out),
-    background-color var(--dur-base) var(--ease-out);
+    background-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
 }
 
 .tag:hover {
-  border-color: var(--c-slate);
-  background: var(--c-mist-10);
+  border-color: var(--c-gold);
+  background: var(--c-gold-08);
+  color: var(--c-gold);
 }
 
-/* Proficiency dot - only rendered when a skill explicitly sets a level. */
 .tag__dot {
   width: 6px;
   height: 6px;
@@ -184,13 +270,13 @@
   flex: none;
 }
 .tag__dot--confident {
-  background: var(--c-mist);
+  background: var(--c-gold);
 }
 .tag__dot--working {
-  background: var(--c-steel);
+  background: var(--c-ivory-74);
 }
 .tag__dot--learning {
-  background: rgba(157, 178, 191, 0.55);
+  background: var(--text-muted);
 }
 
 /* ---------------- Alert ---------------- */
@@ -201,7 +287,7 @@
   border: 1px solid var(--border-subtle);
   border-left-width: 3px;
   border-radius: var(--radius-md);
-  background: var(--c-mist-06);
+  background: var(--surface-card);
   color: var(--text-body);
   font-size: var(--text-sm);
 }
@@ -209,12 +295,13 @@
 .alert__icon {
   flex: none;
   margin-top: 2px;
-  color: var(--c-mist-74);
+  color: var(--c-gold);
 }
 
 .alert__title {
   color: var(--text-heading);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: var(--text-base);
 }
 
@@ -238,28 +325,27 @@
 }
 
 .alert--success {
-  border-left-color: var(--c-mist);
+  border-left-color: var(--c-gold);
+  background: var(--c-gold-08);
 }
 .alert--success .alert__icon {
-  color: var(--c-mist);
+  color: var(--c-gold);
 }
 
 .alert--info {
-  border-left-color: var(--c-slate);
+  border-left-color: var(--c-gold);
 }
 
 /* ---------------- Placeholder badge ---------------- */
-/* Marks content that is still a stand-in, so it can never be mistaken
-   for a real claim about the site owner. */
 .placeholder-badge {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 0.22rem 0.5rem;
-  border: 1px dashed var(--c-mist-40);
+  padding: 0.22rem 0.55rem;
+  border: 1px dashed var(--border-accent-soft);
   border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--c-mist-68);
+  background: var(--c-gold-04);
+  color: var(--c-gold);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   letter-spacing: 0.06em;
@@ -277,11 +363,18 @@
   padding: clamp(2.5rem, 1.8rem + 3vw, 4rem) var(--space-6);
   border: 1px dashed var(--border-strong);
   border-radius: var(--radius-lg);
-  background: var(--c-mist-06);
+  background: var(--surface-card);
 }
 
 .state-block__icon {
-  color: var(--c-mist-68);
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--border-accent-soft);
+  border-radius: var(--radius-md);
+  background: var(--c-gold-08);
+  color: var(--c-gold);
 }
 
 .state-block__title {
@@ -299,8 +392,8 @@
   display: inline-block;
   width: 22px;
   height: 22px;
-  border: 2px solid var(--c-mist-16);
-  border-top-color: var(--c-mist);
+  border: 2px solid var(--c-gold-22);
+  border-top-color: var(--c-gold);
   border-radius: 50%;
   animation: spin 720ms linear infinite;
 }
@@ -315,7 +408,7 @@
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: var(--c-mist-06);
+  background: rgba(247, 245, 240, 0.06);
   border-radius: var(--radius-sm);
 }
 
@@ -326,7 +419,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(221, 230, 237, 0.07),
+    rgba(253, 191, 45, 0.1),
     transparent
   );
   transform: translateX(-100%);

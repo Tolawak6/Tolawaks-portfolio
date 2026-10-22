@@ -5,8 +5,7 @@ import { PlaceholderBadge } from '../components/ui/PlaceholderBadge.jsx';
 import './Timeline.css';
 
 /**
- * Education, sharing the timeline card styling with Experience so the two
- * sections read as a matched pair.
+ * 05 / Education — Editorial Swiss Chronology Ledger.
  */
 export function Education() {
   const { eyebrow, title, intro } = sections.education;
@@ -19,12 +18,18 @@ export function Education() {
       aria-labelledby="education-heading"
     >
       <div className="container">
-        <SectionHeading eyebrow={eyebrow} title={title} intro={intro} id="education-heading" />
+        <SectionHeading
+          index="05"
+          eyebrow={eyebrow}
+          title={title}
+          intro={intro}
+          id="education-heading"
+        />
 
         {entries.length === 0 ? (
           <div className="state-block" data-reveal="">
             <span className="state-block__icon">
-              <Icon name="spark" size={32} />
+              <Icon name="spark" size={28} />
             </span>
             <h3 className="state-block__title">No entries yet</h3>
             <p className="state-block__body">
@@ -34,9 +39,24 @@ export function Education() {
           </div>
         ) : (
           <ol className="timeline" data-reveal-group="">
-            {entries.map((entry) => (
+            {entries.map((entry, idx) => (
               <li className="timeline__item" key={entry.id} data-reveal="">
-                <div className="timeline__marker" aria-hidden="true" />
+                <div className="timeline__aside">
+                  <span className="timeline__index" aria-hidden="true">
+                    05.{idx + 1}
+                  </span>
+                  {entry.year && <p className="timeline__dates">{entry.year}</p>}
+                  {entry.location && (
+                    <p className="timeline__location">
+                      <Icon name="pin" size={13} />
+                      <span>{entry.location}</span>
+                    </p>
+                  )}
+                </div>
+
+                <div className="timeline__rail" aria-hidden="true">
+                  <span className="timeline__marker" />
+                </div>
 
                 <article className="timeline__card">
                   <header className="timeline__head">
@@ -46,22 +66,7 @@ export function Education() {
 
                   <p className="timeline__org">
                     <span className="timeline__org-name">{entry.institution}</span>
-                    {entry.location && (
-                      <>
-                        <span className="timeline__sep" aria-hidden="true">
-                          ·
-                        </span>
-                        <span>{entry.location}</span>
-                      </>
-                    )}
                   </p>
-
-                  {entry.year && (
-                    <p className="timeline__dates">
-                      <Icon name="pin" size={13} />
-                      {entry.year}
-                    </p>
-                  )}
 
                   {entry.description && (
                     <p className="timeline__description">{entry.description}</p>

@@ -12,16 +12,23 @@ export function Footer() {
       <div className="container">
         <div className="site-footer__top">
           <div className="site-footer__identity">
-            <span className="site-footer__mark" aria-hidden="true">
-              {profile.initials}
-            </span>
-            <div>
-              <p className="site-footer__name">{profile.name}</p>
-              <p className="site-footer__role">{profile.title}</p>
+            <div className="site-footer__brand-row">
+              <span className="site-footer__mark" aria-hidden="true">
+                {profile.initials}
+              </span>
+              <div>
+                <p className="site-footer__name">{profile.name}</p>
+                <p className="site-footer__role">{profile.title}</p>
+              </div>
             </div>
+            <p className="site-footer__location">
+              <Icon name="pin" size={14} />
+              {profile.location}
+            </p>
           </div>
 
           <nav className="site-footer__nav" aria-label="Footer">
+            <p className="site-footer__heading">Index</p>
             <ul className="site-footer__list">
               {navigation.slice(1).map((item) => (
                 <li key={item.id}>
@@ -35,6 +42,7 @@ export function Footer() {
           </nav>
 
           <div className="site-footer__contact">
+            <p className="site-footer__heading">Direct</p>
             <a className="site-footer__email" href={`mailto:${contact.email}`}>
               <Icon name="mail" size={16} />
               {contact.email}
@@ -57,6 +65,11 @@ export function Footer() {
             )}
           </div>
         </div>
+
+        {/* Monumental editorial signature strip */}
+        <p className="site-footer__wordmark" aria-hidden="true">
+          {profile.name.toUpperCase()}
+        </p>
 
         <div className="site-footer__bottom">
           <p>

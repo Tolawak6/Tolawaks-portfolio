@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Tolawak Merga">
-  <rect width="64" height="64" rx="12" fill="#27374D"/>
-  <rect x="1" y="1" width="62" height="62" rx="11" fill="none" stroke="#526D82" stroke-width="2"/>
-  <text x="32" y="41" text-anchor="middle"
+  <rect width="64" height="64" rx="8" fill="#000000"/>
+  <rect x="2" y="2" width="60" height="60" rx="6" fill="none" stroke="#FDBF2D" stroke-width="3"/>
+  <rect x="2" y="2" width="60" height="10" rx="4" fill="#FDBF2D"/>
+  <text x="32" y="45" text-anchor="middle"
         font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-        font-size="24" font-weight="700" fill="#DDE6ED" letter-spacing="1">TM</text>
+        font-size="25" font-weight="800" fill="#FDBF2D" letter-spacing="1">TM</text>
 </svg>

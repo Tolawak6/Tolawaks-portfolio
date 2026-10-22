@@ -3,11 +3,29 @@
   align-items: center;
   min-height: calc(100vh - var(--header-height));
   padding-block: var(--space-16);
-  background: var(--c-navy);
+  background: var(--c-black);
+}
+
+.not-found__card {
+  padding: clamp(2rem, 1.4rem + 2.5vw, 3.25rem);
+  border: 1px solid var(--border-strong);
+  border-top: 3px solid var(--c-gold);
+  border-radius: var(--radius-md);
+  background: var(--surface-card);
+}
+
+.not-found__code {
+  margin-top: var(--space-3);
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 3rem + 6vw, 7rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  color: var(--c-gold);
 }
 
 .not-found__title {
-  margin-top: var(--space-4);
+  margin-top: var(--space-3);
   font-size: var(--text-3xl);
 }
 

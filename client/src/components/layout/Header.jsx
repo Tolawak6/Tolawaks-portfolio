@@ -9,13 +9,11 @@ import './Header.css';
 const SECTION_IDS = navigation.map((item) => item.id);
 
 /**
- * Sticky header.
+ * Sticky architectural Swiss header (#000000 + #FDBF2D).
  *
- * - #27374D background, the primary dark colour of the palette.
- * - Links smooth-scroll to sections on the home page and are highlighted via
- *   scroll-spy.
- * - Collapses to a hamburger menu below 900px; the panel is keyboard
- *   accessible and locks background scrolling while open.
+ * - Solid #FDBF2D monogram badge with #000000 ink.
+ * - Numbered navigation items with scroll-spy active highlight.
+ * - Dedicated high-contrast header CTA on desktop + accessible mobile drawer.
  */
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,12 +26,10 @@ export function Header() {
 
   useLockBodyScroll(menuOpen);
 
-  // Close the menu whenever the route changes.
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname, location.hash]);
 
-  // Escape closes the menu and returns focus to the toggle.
   useEffect(() => {
     if (!menuOpen) return undefined;
 
@@ -48,14 +44,12 @@ export function Header() {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [menuOpen]);
 
-  // Move focus into the panel when it opens so keyboard users land inside it.
   useEffect(() => {
     if (menuOpen) panelRef.current?.querySelector('a')?.focus();
   }, [menuOpen]);
 
-  // Breakpoint change to desktop should not leave the panel mounted.
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 900px)');
+    const mq = window.matchMedia('(min-width: 980px)');
     const onChange = (event) => {
       if (event.matches) setMenuOpen(false);
     };
@@ -65,21 +59,28 @@ export function Header() {
 
   const sectionHref = (id) => (onHomePage ? `#${id}` : `/#${id}`);
 
+  // Primary nav skips "Home" visually because the brand mark links home, keeping
+  // the Swiss bar crisp and uncluttered; "Home" stays first in the mobile menu.
+  const desktopItems = navigation.filter((item) => item.id !== 'home');
+
   return (
     <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="container site-header__inner">
-        {/* Logo: initials mark + name. Both link home. */}
         <Link to="/" className="site-header__brand" aria-label={`${profile.name} - home`}>
           <span className="site-header__mark" aria-hidden="true">
             {profile.initials}
           </span>
-          <span className="site-header__name">{profile.name}</span>
+          <span className="site-header__brand-copy">
+            <span className="site-header__name">{profile.name}</span>
+            <span className="site-header__role">{profile.title}</span>
+          </span>
         </Link>
 
         <nav className="site-nav" aria-label="Primary">
           <ul className="site-nav__list">
-            {navigation.map((item) => {
+            {desktopItems.map((item, idx) => {
               const isActive = onHomePage && activeId === item.id;
+              const num = String(idx + 1).padStart(2, '0');
               return (
                 <li key={item.id}>
                   <a
@@ -87,6 +88,9 @@ export function Header() {
                     className={`site-nav__link ${isActive ? 'is-active' : ''}`}
                     aria-current={isActive ? 'true' : undefined}
                   >
+                    <span className="site-nav__num" aria-hidden="true">
+                      {num}
+                    </span>
                     {item.label}
                   </a>
                 </li>
@@ -95,39 +99,64 @@ export function Header() {
           </ul>
         </nav>
 
-        <button
-          ref={toggleRef}
-          type="button"
-          className="site-header__toggle"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <Icon name={menuOpen ? 'close' : 'menu'} size={22} />
-        </button>
+        <div className="site-header__actions">
+          <a href={sectionHref('contact')} className="site-header__cta">
+            Let&apos;s Talk
+            <Icon name="arrowUpRight" size={15} />
+          </a>
+
+          <button
+            ref={toggleRef}
+            type="button"
+            className="site-header__toggle"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <Icon name={menuOpen ? 'close' : 'menu'} size={22} />
+          </button>
+        </div>
       </div>
 
-      {/* Mobile panel. Kept in the DOM only while open so its links are not
-          focusable when hidden. */}
       {menuOpen && (
         <div className="mobile-menu" id="mobile-menu" ref={panelRef}>
-          <nav aria-label="Mobile">
+          <nav className="container" aria-label="Mobile">
             <ul className="mobile-menu__list">
-              {navigation.map((item) => (
-                <li key={item.id}>
-                  <a
-                    href={sectionHref(item.id)}
-                    className="mobile-menu__link"
-                    aria-current={onHomePage && activeId === item.id ? 'true' : undefined}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item.label}
-                    <Icon name="arrowRight" size={16} />
-                  </a>
-                </li>
-              ))}
+              {navigation.map((item, idx) => {
+                const isActive = onHomePage && activeId === item.id;
+                const num = String(idx).padStart(2, '0');
+                return (
+                  <li key={item.id}>
+                    <a
+                      href={sectionHref(item.id)}
+                      className="mobile-menu__link"
+                      aria-current={isActive ? 'true' : undefined}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <span className="mobile-menu__left">
+                        <span className="mobile-menu__num" aria-hidden="true">
+                          {num}
+                        </span>
+                        <span>{item.label}</span>
+                      </span>
+                      <Icon name="arrowRight" size={18} />
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
+
+            <div className="mobile-menu__footer">
+              <a
+                href={sectionHref('contact')}
+                className="btn btn--primary btn--block"
+                onClick={() => setMenuOpen(false)}
+              >
+                Start a Conversation
+                <Icon name="arrowRight" size={16} />
+              </a>
+            </div>
           </nav>
         </div>
       )}

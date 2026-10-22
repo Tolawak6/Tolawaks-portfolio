@@ -5,11 +5,10 @@ import { Tag } from '../components/ui/Tag.jsx';
 import './Skills.css';
 
 /**
- * Skills, grouped by where they sit in a project.
+ * 02 / Skills — 12-Column Asymmetric Bento Grid.
  *
- * There are deliberately no percentage bars or "expert" labels: unless a skill
- * opts in to a `level` in portfolio.js, this section makes no claim about
- * proficiency, only that the technology is one I work with.
+ * No fabricated proficiency bars: each tile presents the technologies grouped
+ * by their architectural layer with clean Swiss indexing.
  */
 export function Skills() {
   const { eyebrow, title, intro } = sections.skills;
@@ -17,29 +16,52 @@ export function Skills() {
   return (
     <section className="section section--page" id="skills" aria-labelledby="skills-heading">
       <div className="container">
-        <SectionHeading eyebrow={eyebrow} title={title} intro={intro} id="skills-heading" />
+        <SectionHeading
+          index="02"
+          eyebrow={eyebrow}
+          title={title}
+          intro={intro}
+          id="skills-heading"
+        />
 
-        <ul className="skills__grid" data-reveal-group="">
-          {skillGroups.map((group) => (
-            <li className="skill-card" key={group.id} data-reveal="">
-              <div className="skill-card__head">
-                <span className="skill-card__icon" aria-hidden="true">
-                  <Icon name={group.icon} size={20} />
-                </span>
-                <h3 className="skill-card__title">{group.title}</h3>
-              </div>
+        <ul className="skills__bento" data-reveal-group="">
+          {skillGroups.map((group, idx) => {
+            const tileIndex = `02.${idx + 1}`;
+            return (
+              <li
+                className={`skill-card skill-card--${group.id}`}
+                key={group.id}
+                data-reveal=""
+                style={{ '--reveal-delay': `${(idx % 3) * 65}ms` }}
+              >
+                <div className="skill-card__meta">
+                  <span className="skill-card__code" aria-hidden="true">
+                    {tileIndex}
+                  </span>
+                  <span className="skill-card__count">
+                    {group.skills.length} {group.skills.length === 1 ? 'tool' : 'tools'}
+                  </span>
+                </div>
 
-              {group.summary && <p className="skill-card__summary">{group.summary}</p>}
+                <div className="skill-card__head">
+                  <span className="skill-card__icon" aria-hidden="true">
+                    <Icon name={group.icon} size={20} />
+                  </span>
+                  <h3 className="skill-card__title">{group.title}</h3>
+                </div>
 
-              <ul className="skill-card__tags">
-                {group.skills.map((skill) => (
-                  <Tag key={skill.name} level={skill.level}>
-                    {skill.name}
-                  </Tag>
-                ))}
-              </ul>
-            </li>
-          ))}
+                {group.summary && <p className="skill-card__summary">{group.summary}</p>}
+
+                <ul className="skill-card__tags">
+                  {group.skills.map((skill) => (
+                    <Tag key={skill.name} level={skill.level}>
+                      {skill.name}
+                    </Tag>
+                  ))}
+                </ul>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>

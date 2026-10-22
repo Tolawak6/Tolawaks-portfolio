@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#27374D" />
+    <meta name="theme-color" content="#000000" />
 
     <!-- ============================================================
          SEO - edit these three blocks to change how the site appears
@@ -40,8 +40,13 @@
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Preconnect only helps if you actually self-host fonts; the site uses a
-         system font stack by default so no external requests are made at all. -->
+    <!-- Editorial Swiss + Technical typography (graceful fallback to system fonts offline) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    />
 
     <script type="application/ld+json">
       {
@@ -76,11 +81,11 @@
   <body>
     <div id="root"></div>
     <noscript>
-      <div style="padding: 2rem; font-family: system-ui, sans-serif; background: #27374D; color: #DDE6ED">
-        <h1>Tolawak Merga - Full-Stack Web Developer</h1>
+      <div style="padding: 2rem; font-family: system-ui, sans-serif; background: #000000; color: #F7F5F0; border-top: 4px solid #FDBF2D">
+        <h1 style="color: #FDBF2D">Tolawak Merga - Full-Stack Web Developer</h1>
         <p>
           This portfolio needs JavaScript enabled. You can still reach me at
-          <a href="mailto:tolawak6@gmail.com" style="color: #DDE6ED">tolawak6@gmail.com</a>.
+          <a href="mailto:tolawak6@gmail.com" style="color: #FDBF2D">tolawak6@gmail.com</a>.
         </p>
       </div>
     </noscript>

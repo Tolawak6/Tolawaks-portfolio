@@ -4,14 +4,7 @@ import { Button } from '../ui/Button.jsx';
 import './ProjectCard.css';
 
 /**
- * A single project card.
- *
- * Every field comes from the API. Both optional fields are handled gracefully:
- *
- *  - Missing image  -> a generated placeholder panel, and a broken image URL
- *                      falls back to the same panel via onError.
- *  - Missing link   -> the action renders as a non-interactive "Link
- *                      unavailable" chip instead of an anchor that goes nowhere.
+ * Editorial Swiss Case Card for a single project from PostgreSQL / REST API.
  */
 export function ProjectCard({ project, index = 0 }) {
   const [imageFailed, setImageFailed] = useState(false);
@@ -19,14 +12,23 @@ export function ProjectCard({ project, index = 0 }) {
   const hasImage = Boolean(project.image) && !imageFailed;
   const hasLink = Boolean(project.link);
   const initial = project.name?.trim()?.charAt(0)?.toUpperCase() ?? '?';
+  const serial = String(index + 1).padStart(2, '0');
 
   return (
-    <article className="project-card" data-reveal="" style={{ '--reveal-delay': `${(index % 3) * 80}ms` }}>
+    <article
+      className="project-card"
+      data-reveal=""
+      style={{ '--reveal-delay': `${(index % 3) * 80}ms` }}
+    >
+      <div className="project-card__chrome" aria-hidden="true">
+        <span className="project-card__serial">PRJ // {serial}</span>
+        <span className="project-card__status-dot" />
+      </div>
+
       <div className="project-card__media">
         {hasImage ? (
           <img
             src={project.image}
-            /* Describes the project rather than the file. */
             alt={`Preview of ${project.name}`}
             loading="lazy"
             decoding="async"
@@ -52,7 +54,7 @@ export function ProjectCard({ project, index = 0 }) {
             variant="accent"
             size="sm"
             href={project.link}
-            icon={<Icon name="externalLink" size={15} />}
+            icon={<Icon name="arrowUpRight" size={15} />}
             iconPosition="end"
             aria-label={`View ${project.name} (opens in a new tab)`}
           >
@@ -73,6 +75,9 @@ export function ProjectCard({ project, index = 0 }) {
 export function ProjectCardSkeleton() {
   return (
     <div className="project-card project-card--skeleton" aria-hidden="true">
+      <div className="project-card__chrome">
+        <div className="skeleton" style={{ height: '0.75rem', width: '64px' }} />
+      </div>
       <div className="project-card__media skeleton" />
       <div className="project-card__body">
         <div className="skeleton" style={{ height: '1.25rem', width: '58%' }} />

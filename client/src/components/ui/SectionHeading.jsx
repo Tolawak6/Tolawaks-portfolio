@@ -1,25 +1,41 @@
 import './ui.css';
 
 /**
- * Consistent eyebrow + title + intro at the top of each section.
- * `id` is used to label the section via aria-labelledby.
+ * Editorial Swiss section header: optional tabular index ("01".."06"),
+ * gold eyebrow, expressive display title, intro copy, and an architectural
+ * divider rule with a gold leading bar.
  */
-export function SectionHeading({ eyebrow, title, intro, id, align = 'start' }) {
+export function SectionHeading({ index, eyebrow, title, intro, id, align = 'start' }) {
+  const isCentered = align === 'center';
+
   return (
     <div
-      className="section-heading"
+      className={`section-heading ${isCentered ? 'section-heading--center' : ''}`.trim()}
       data-reveal=""
-      style={align === 'center' ? { marginInline: 'auto', textAlign: 'center' } : undefined}
     >
-      {eyebrow && (
-        <p className="eyebrow" style={align === 'center' ? { justifyContent: 'center' } : undefined}>
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="section-heading__title" id={id}>
-        {title}
-      </h2>
-      {intro && <p className="section-heading__intro">{intro}</p>}
+      <div className="section-heading__meta">
+        {index && (
+          <span className="section-heading__index" aria-hidden="true">
+            {index}
+          </span>
+        )}
+        {eyebrow && (
+          <p className="eyebrow" style={isCentered ? { justifyContent: 'center' } : undefined}>
+            {eyebrow}
+          </p>
+        )}
+      </div>
+
+      <div className="section-heading__main">
+        <h2 className="section-heading__title" id={id}>
+          {title}
+        </h2>
+        {intro && <p className="section-heading__intro">{intro}</p>}
+      </div>
+
+      <div className="section-heading__rule" aria-hidden="true">
+        <span className="section-heading__rule-accent" />
+      </div>
     </div>
   );
 }
